@@ -92,7 +92,7 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
       <div className="bg-white/95 backdrop-blur-md p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl shadow-black/[0.03] border border-[#EFE6DF] space-y-4 text-left">
         
         {/* Quick Filter Type Chips (Horizontally Scrollable on Mobile) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none select-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin select-none">
           <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#A39690] shrink-0 mr-1 flex items-center gap-1">
             <Sparkles className="w-3 h-3 text-[#C5A059]" /> Quick Filter:
           </span>
