@@ -10,7 +10,6 @@ import { About } from './components/About';
 import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
 import { TrustSections } from './components/TrustSections';
-import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { Building2 } from 'lucide-react';
 
 export default function App() {
@@ -325,11 +324,6 @@ export default function App() {
             onClose={() => setSelectedEnquiryRoom(null)}
             onSubmitEnquiry={handleSubmitEnquiry}
           />
-        )}
-
-        {/* Sticky Floating WhatsApp Action Button - Hidden on Admin page to prevent overlapping */}
-        {activePage !== 'admin' && (
-          <WhatsAppFloat roomName={selectedDetailRoom ? selectedDetailRoom.title : null} />
         )}
 
         {/* Bottom Footer */}
