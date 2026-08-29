@@ -252,29 +252,29 @@ export default function App() {
 
           {/* ROOMS CATALOG PAGE */}
           {activePage === 'rooms' && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-5 sm:space-y-8">
               
               {/* Modern Hero Header Section */}
-              <div className="text-center max-w-3xl mx-auto space-y-3 px-2">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[11px] font-extrabold tracking-wider uppercase shadow-xs border border-[#C5A059]/30">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <div className="text-center max-w-3xl mx-auto space-y-2.5 px-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[10px] sm:text-[11px] font-extrabold tracking-wider uppercase shadow-xs border border-[#C5A059]/30">
+                  <Sparkles className="w-3 h-3 text-[#C5A059]" />
                   <span>COMPLETE METRO CATALOG</span>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2A2421] tracking-tight leading-tight">
+                <h1 className="text-2xl sm:text-5xl font-extrabold text-[#2A2421] tracking-tight leading-snug">
                   Explore Dubai Rooms & <span className="text-[#C5A059]">Partitions</span>
                 </h1>
 
-                <p className="text-sm sm:text-base text-[#786C66] max-w-xl mx-auto leading-relaxed font-medium">
-                  Filter by station location or room layout below. All private spaces are verified with <span className="font-bold text-[#278A45]">Zero Deposit</span> & <span className="font-bold text-[#278A45]">Zero Commission</span>.
+                <p className="text-xs sm:text-base text-[#786C66] max-w-xl mx-auto leading-relaxed font-normal px-2">
+                  Filter by station location or room layout below. All spaces verified with <span className="font-bold text-[#278A45]">Zero Deposit</span> & <span className="font-bold text-[#278A45]">Zero Commission</span>.
                 </p>
 
-                {/* Trust Badges */}
-                <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-[#786C66]">
-                  <span className="bg-white px-3 py-1 rounded-full border border-[#EFE6DF] shadow-2xs flex items-center gap-1.5">
+                {/* Trust Badges - Sleek Compact Single Line on Mobile */}
+                <div className="pt-1 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-medium text-[#786C66]">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-white border border-[#EFE6DF] shadow-2xs font-semibold text-[#2A2421]">
                     📍 Baniyas • Rigga • Clock Tower
                   </span>
-                  <span className="bg-[#EBF7EE] text-[#278A45] px-3 py-1 rounded-full border border-[#278A45]/20 flex items-center gap-1.5">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#EBF7EE] text-[#278A45] font-bold border border-[#278A45]/20">
                     ✓ Direct Landlord Pricing
                   </span>
                 </div>
