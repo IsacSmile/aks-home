@@ -343,65 +343,63 @@ export function TrustSections({ onExploreRooms }) {
       </section>
 
       {/* 3. HOW IT WORKS (SIMPLE 3-STEP PROCESS) */}
-      <section className="bg-[#1E1B18] text-white py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 text-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 text-center">
+        
+        <div className="max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C5A059] bg-[#FBF4E6] px-3.5 py-1 rounded-full border border-[#C5A059]/20 inline-block">
+            Simple 3-Step Process
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-[#2A2421]">
+            How Move-In Works with AKS Home
+          </h2>
+          <p className="text-xs sm:text-sm text-[#786C66]">
+            No complicated contracts or agent commissions. Move into your private partition room in 3 simple steps.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           
-          <div className="max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#C5A059]">
-              Simple 3-Step Process
+          <div className="p-6 rounded-2xl bg-white border border-[#EFE6DF] shadow-xs space-y-3 relative hover:shadow-md hover:border-[#C5A059]/40 transition-all">
+            <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center font-bold text-sm border border-[#C5A059]/20">
+              1
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold">
-              How Move-In Works with AKS Home
-            </h2>
-            <p className="text-sm text-[#A39690]">
-              No complicated contracts or agent commissions. Move into your private partition room in 3 simple steps.
+            <div className="w-10 h-10 rounded-xl bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center border border-[#C5A059]/20">
+              <DoorOpen className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-[#2A2421]">Browse Verified Rooms</h3>
+            <p className="text-xs text-[#786C66] leading-relaxed">
+              Explore real photos of compact partition rooms, loft beds, and capsule spaces near metro stations. Check rates in AED, INR & USD.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-            
-            <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#38312D] space-y-3 relative">
-              <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-sm">
-                1
-              </span>
-              <div className="w-10 h-10 rounded-xl bg-[#C5A059] text-white flex items-center justify-center">
-                <DoorOpen className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">Browse Verified Rooms</h3>
-              <p className="text-xs text-[#A39690] leading-relaxed">
-                Explore real photos of compact partition rooms, loft beds, and capsule spaces near metro stations. Check rates in AED, INR & USD.
-              </p>
+          <div className="p-6 rounded-2xl bg-white border border-[#EFE6DF] shadow-xs space-y-3 relative hover:shadow-md hover:border-[#C5A059]/40 transition-all">
+            <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center font-bold text-sm border border-[#C5A059]/20">
+              2
+            </span>
+            <div className="w-10 h-10 rounded-xl bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center border border-[#C5A059]/20">
+              <MessageCircle className="w-5 h-5" />
             </div>
+            <h3 className="text-lg font-bold text-[#2A2421]">Send Enquiry or WhatsApp</h3>
+            <p className="text-xs text-[#786C66] leading-relaxed">
+              Click "Send Enquiry" or WhatsApp us directly at <span className="text-[#C5A059] font-bold">+971 50 706 1925</span>. Our team responds within 30–60 minutes.
+            </p>
+          </div>
 
-            <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#38312D] space-y-3 relative">
-              <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-sm">
-                2
-              </span>
-              <div className="w-10 h-10 rounded-xl bg-[#C5A059] text-white flex items-center justify-center">
-                <MessageCircle className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">Send Enquiry or WhatsApp</h3>
-              <p className="text-xs text-[#A39690] leading-relaxed">
-                Click "Send Enquiry" or WhatsApp us directly at <span className="text-[#C5A059] font-bold">+971 50 706 1925</span>. Our team responds within 30–60 minutes.
-              </p>
+          <div className="p-6 rounded-2xl bg-white border border-[#EFE6DF] shadow-xs space-y-3 relative hover:shadow-md hover:border-[#C5A059]/40 transition-all">
+            <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center font-bold text-sm border border-[#C5A059]/20">
+              3
+            </span>
+            <div className="w-10 h-10 rounded-xl bg-[#FBF4E6] text-[#C5A059] flex items-center justify-center border border-[#C5A059]/20">
+              <UserCheck className="w-5 h-5" />
             </div>
-
-            <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#38312D] space-y-3 relative">
-              <span className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-sm">
-                3
-              </span>
-              <div className="w-10 h-10 rounded-xl bg-[#C5A059] text-white flex items-center justify-center">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">Visit & Move In</h3>
-              <p className="text-xs text-[#A39690] leading-relaxed">
-                Schedule a viewing 7 days a week (10 AM – 9 PM). Move in with zero deposit, zero commission, and all bills included.
-              </p>
-            </div>
-
+            <h3 className="text-lg font-bold text-[#2A2421]">Visit & Move In</h3>
+            <p className="text-xs text-[#786C66] leading-relaxed">
+              Schedule a viewing 7 days a week (10 AM – 9 PM). Move in with zero deposit, zero commission, and all bills included.
+            </p>
           </div>
 
         </div>
+
       </section>
 
     </div>
