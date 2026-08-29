@@ -209,38 +209,40 @@ export function AdminPanel({
         /* Authenticated Full-Width Dashboard */
         <div className="flex-1 flex flex-col overflow-hidden">
           
-          {/* Navigation Tabs - Responsive Layout */}
-          <div className="px-4 sm:px-6 pt-3.5 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shrink-0">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+          {/* Navigation Tabs - High-Visibility Visible Buttons */}
+          <div className="px-4 sm:px-6 pt-4 pb-3 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+            
+            {/* Pill Tab Switcher */}
+            <div className="flex items-center gap-2 bg-[#EFE6DF]/60 p-1.5 rounded-2xl border border-[#EFE6DF] shrink-0">
               <button
                 onClick={() => setActiveTab('rooms')}
-                className={`px-3.5 sm:px-5 py-2 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
+                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 shrink-0 ${
                   activeTab === 'rooms'
-                    ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
-                    : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
+                    ? 'bg-[#1E1B18] text-white shadow-md'
+                    : 'bg-white text-[#2A2421] hover:bg-[#FAF6F0] border border-[#EFE6DF]'
                 }`}
               >
-                <Building2 className="w-3.5 h-3.5 text-[#C5A059]" />
+                <Building2 className={`w-4 h-4 ${activeTab === 'rooms' ? 'text-[#C5A059]' : 'text-[#786C66]'}`} />
                 <span>Rooms Management ({rooms.length})</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('enquiries')}
-                className={`px-3.5 sm:px-5 py-2 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
+                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 shrink-0 ${
                   activeTab === 'enquiries'
-                    ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
-                    : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
+                    ? 'bg-[#1E1B18] text-white shadow-md'
+                    : 'bg-white text-[#2A2421] hover:bg-[#FAF6F0] border border-[#EFE6DF]'
                 }`}
               >
-                <MessageSquare className="w-3.5 h-3.5 text-[#C5A059]" />
+                <MessageSquare className={`w-4 h-4 ${activeTab === 'enquiries' ? 'text-[#C5A059]' : 'text-[#786C66]'}`} />
                 <span>Enquiries ({enquiries.length})</span>
               </button>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pb-2 sm:pb-0">
+            <div className="flex items-center justify-end gap-2">
               <button
                 onClick={onResetSeed}
-                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-[#EFE6DF] bg-white text-[11px] sm:text-xs font-semibold text-[#786C66] hover:text-[#2A2421] flex items-center gap-1.5 transition-colors shadow-2xs"
+                className="px-3.5 py-2 rounded-xl border border-[#EFE6DF] bg-white hover:bg-[#FAF6F0] text-xs font-bold text-[#2A2421] flex items-center gap-1.5 transition-colors shadow-2xs"
                 title="Reset to 6 sample rooms data"
               >
                 <RefreshCw className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -257,20 +259,20 @@ export function AdminPanel({
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-[#2A2421]">Active Room Listings</h4>
-                    <p className="text-[11px] sm:text-xs text-[#786C66]">Manage properties, update pricing, or add new partition rooms in real-time.</p>
+                    <h4 className="text-lg sm:text-xl font-extrabold text-[#2A2421]">Active Room Listings</h4>
+                    <p className="text-[11px] sm:text-xs text-[#786C66] mt-0.5">Manage properties, update pricing, or add new partition rooms in real-time.</p>
                   </div>
 
                   <button
                     onClick={openAddModal}
-                    className="px-3.5 py-2 sm:px-5 sm:py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5 self-start sm:self-auto shrink-0"
+                    className="px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] active:scale-95 text-white text-xs sm:text-sm font-extrabold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 shrink-0 border border-[#B38E46]"
                   >
-                    <Plus className="w-4 h-4" />
-                    <span>Add New Room Listing</span>
+                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                    <span>+ Add New Room Listing</span>
                   </button>
                 </div>
 
-                {/* Rooms Grid - Smooth, Compact Mobile Scaling */}
+                {/* Rooms Grid - Smooth, High Visibility Mobile Cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {rooms.map((rm) => (
                     <div 
@@ -281,31 +283,31 @@ export function AdminPanel({
                       {/* Left & Middle Info Section */}
                       <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1 w-full">
                         
-                        {/* Compact Thumbnail Image on Mobile */}
+                        {/* Compact Thumbnail Image */}
                         <img
                           src={rm.images[0]}
                           alt={rm.title}
                           className="w-20 h-20 sm:w-28 sm:h-28 rounded-xl sm:rounded-2xl object-cover border border-[#EFE6DF] shrink-0 shadow-2xs"
                         />
 
-                        {/* Room Details Column - Scaled Fonts */}
+                        {/* Room Details Column */}
                         <div className="min-w-0 flex-1 space-y-1 text-left">
                           
                           {/* Type & Metro Badges */}
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="text-[10px] sm:text-[11px] font-extrabold uppercase text-[#C5A059] bg-[#FBF4E6] px-2 py-0.5 rounded-md border border-[#C5A059]/20">
+                            <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-[#C5A059] bg-[#FBF4E6] px-2.5 py-0.5 rounded-md border border-[#C5A059]/30">
                               {rm.type}
                             </span>
                             {rm.metroDistance && (
-                              <span className="text-[10px] sm:text-[11px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded-md border border-[#EFE6DF] flex items-center gap-1">
+                              <span className="text-[10px] sm:text-[11px] font-semibold text-[#5E524C] bg-[#FAF6F0] px-2.5 py-0.5 rounded-md border border-[#EFE6DF] flex items-center gap-1">
                                 <Train className="w-3 h-3 text-[#C5A059] shrink-0" />
                                 <span className="truncate max-w-[140px] sm:max-w-none">{rm.metroDistance}</span>
                               </span>
                             )}
                           </div>
 
-                          {/* Full Title (Compact Font Size on Mobile) */}
-                          <h5 className="font-bold text-sm sm:text-base text-[#2A2421] leading-snug line-clamp-2 mt-0.5">
+                          {/* Full Title */}
+                          <h5 className="font-extrabold text-sm sm:text-base text-[#2A2421] leading-snug line-clamp-2 mt-0.5">
                             {rm.title}
                           </h5>
 
@@ -326,11 +328,11 @@ export function AdminPanel({
                         </div>
                       </div>
 
-                      {/* Right Action Buttons Column */}
+                      {/* Right Action Buttons Column - High-Contrast Visible Buttons */}
                       <div className="flex flex-row sm:flex-col items-center justify-end gap-2 w-full sm:w-auto border-t sm:border-t-0 pt-2.5 sm:pt-0 border-[#EFE6DF] shrink-0">
                         <button
                           onClick={() => openEditModal(rm)}
-                          className="flex-1 sm:flex-none px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center justify-center gap-1 transition-colors border border-[#EFE6DF] shadow-2xs"
+                          className="flex-1 sm:flex-none px-4 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] active:bg-[#EFE6DF] text-[#2A2421] text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all border border-[#DCD0C5] shadow-xs"
                           title="Edit Room"
                         >
                           <Edit2 className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -342,7 +344,7 @@ export function AdminPanel({
                               onDeleteRoom(rm.id);
                             }
                           }}
-                          className="flex-1 sm:flex-none px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center justify-center gap-1 transition-colors border border-red-200/70 shadow-2xs"
+                          className="flex-1 sm:flex-none px-4 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-red-50 hover:bg-red-100 active:bg-red-200 text-red-700 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all border border-red-200 shadow-xs"
                           title="Delete Room"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
