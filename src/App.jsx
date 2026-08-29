@@ -33,12 +33,19 @@ export default function App() {
     return 'home';
   };
 
-  // 1. Rooms State with LocalStorage Persistence
+  // 1. Rooms State with LocalStorage Persistence & Auto-Migration for New Partition Images
   const [rooms, setRooms] = useState(() => {
     const saved = localStorage.getItem('aks_rooms');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Check if saved rooms contain old stock image URLs (e.g., Unsplash URLs or old structure)
+        const hasOldImages = parsed.some(
+          (r) => r.images && r.images[0] && (r.images[0].includes('unsplash.com') || r.images[0].includes('pink_partition'))
+        );
+        if (!hasOldImages && parsed.length > 0) {
+          return parsed;
+        }
       } catch (e) {
         console.error('Failed to parse saved rooms', e);
       }
@@ -119,8 +126,9 @@ export default function App() {
   };
 
   const handleResetSeed = () => {
-    if (confirm('Reset rooms data to original 6 sample listings?')) {
+    if (confirm('Reset rooms data to original 6 partition listings?')) {
       setRooms(initialRooms);
+      localStorage.setItem('aks_rooms', JSON.stringify(initialRooms));
     }
   };
 
@@ -319,8 +327,10 @@ export default function App() {
           />
         )}
 
-        {/* Sticky Floating WhatsApp Action Button */}
-        <WhatsAppFloat roomName={selectedDetailRoom ? selectedDetailRoom.title : null} />
+        {/* Sticky Floating WhatsApp Action Button - Hidden on Admin page to prevent overlapping */}
+        {activePage !== 'admin' && (
+          <WhatsAppFloat roomName={selectedDetailRoom ? selectedDetailRoom.title : null} />
+        )}
 
         {/* Bottom Footer */}
         <Footer

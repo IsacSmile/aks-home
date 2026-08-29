@@ -60,7 +60,7 @@ export function AdminPanel({
       metroDistance: '2 mins walk (Exit 1)',
       type: 'Loft Partition',
       availabilityDate: 'Available Now',
-      monthlyPriceAED: 1300,
+      monthlyPriceAED: 1350,
       weeklyPriceAED: 380,
       dailyPriceAED: 65,
       imageUrl: '/images/loft_partition.jpg',
@@ -131,24 +131,29 @@ export function AdminPanel({
   return (
     <div className="w-full bg-white rounded-2xl sm:rounded-3xl shadow-md border border-[#EFE6DF] overflow-hidden flex flex-col min-h-[82vh]">
       
-      {/* Header Bar - Full Width */}
+      {/* Header Bar - Full Width with High-Contrast Text */}
       <div className="px-6 py-5 border-b border-[#EFE6DF] flex items-center justify-between bg-[#1E1B18] text-white shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-white shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-white shadow-sm shrink-0">
             <Shield className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-bold text-lg leading-tight">AKS Home Admin Dashboard</h3>
-            <p className="text-xs text-[#A39690]">Full Access Property & Booking Lead Management</p>
+            <h3 className="font-extrabold text-lg sm:text-xl text-white tracking-tight leading-tight">
+              AKS Home Admin Dashboard
+            </h3>
+            <p className="text-xs text-[#E6C98B] font-medium mt-0.5">
+              Full Access Property & Booking Lead Management
+            </p>
           </div>
         </div>
 
         <button
           onClick={onClose}
-          className="px-4 py-2 rounded-xl bg-[#2A2421] hover:bg-[#38312D] text-xs font-bold text-white flex items-center gap-2 transition-all border border-[#3A332E]"
+          className="px-4 py-2 rounded-xl bg-[#2A2421] hover:bg-[#38312D] text-xs font-bold text-white flex items-center gap-2 transition-all border border-[#3A332E] shrink-0"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Exit Admin</span>
+          <ArrowLeft className="w-4 h-4 text-[#C5A059]" />
+          <span className="hidden sm:inline">Exit Admin</span>
+          <span className="sm:hidden">Exit</span>
         </button>
       </div>
 
@@ -204,12 +209,12 @@ export function AdminPanel({
         /* Authenticated Full-Width Dashboard */
         <div className="flex-1 flex flex-col overflow-hidden">
           
-          {/* Navigation Tabs */}
-          <div className="px-6 pt-4 border-b border-[#EFE6DF] bg-[#FDF8F3] flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-2">
+          {/* Navigation Tabs - Responsive Layout */}
+          <div className="px-4 sm:px-6 pt-4 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
               <button
                 onClick={() => setActiveTab('rooms')}
-                className={`px-5 py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x ${
+                className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
                   activeTab === 'rooms'
                     ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
                     : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
@@ -221,31 +226,31 @@ export function AdminPanel({
 
               <button
                 onClick={() => setActiveTab('enquiries')}
-                className={`px-5 py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x ${
+                className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
                   activeTab === 'enquiries'
                     ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
                     : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
                 }`}
               >
                 <MessageSquare className="w-4 h-4 text-[#C5A059]" />
-                <span>Enquiries Received ({enquiries.length})</span>
+                <span>Enquiries ({enquiries.length})</span>
               </button>
             </div>
 
-            <div className="flex items-center gap-2 pb-2">
+            <div className="flex items-center justify-end gap-2 pb-2 sm:pb-0">
               <button
                 onClick={onResetSeed}
                 className="px-3.5 py-2 rounded-xl border border-[#EFE6DF] bg-white text-xs font-semibold text-[#786C66] hover:text-[#2A2421] flex items-center gap-1.5 transition-colors shadow-2xs"
-                title="Reset to sample rooms data"
+                title="Reset to 6 sample rooms data"
               >
-                <RefreshCw className="w-3.5 h-3.5" />
+                <RefreshCw className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>Reset Seed Data</span>
               </button>
             </div>
           </div>
 
           {/* Main Content Area - Full Width */}
-          <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
+          <div className="p-4 sm:p-8 overflow-y-auto flex-1 space-y-6">
             
             {/* TAB 1: ROOMS MANAGEMENT */}
             {activeTab === 'rooms' && (
@@ -265,35 +270,43 @@ export function AdminPanel({
                   </button>
                 </div>
 
-                {/* Rooms Grid - Full Width 3 Columns */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {/* Rooms Grid - Clean Responsive Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5">
                   {rooms.map((rm) => (
-                    <div key={rm.id} className="p-5 rounded-2xl border border-[#EFE6DF] bg-white flex gap-4 items-center justify-between shadow-2xs hover:border-[#C5A059]/40 transition-all">
-                      <div className="flex items-center gap-3.5 min-w-0">
+                    <div key={rm.id} className="p-4 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:border-[#C5A059]/40 transition-all">
+                      <div className="flex items-center gap-3.5 min-w-0 w-full sm:w-auto">
                         <img
                           src={rm.images[0]}
                           alt={rm.title}
-                          className="w-18 h-18 rounded-xl object-cover border border-[#EFE6DF] shrink-0"
+                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-[#EFE6DF] shrink-0"
                         />
-                        <div className="min-w-0">
-                          <span className="text-[10px] font-bold uppercase text-[#C5A059] bg-[#FBF4E6] px-2 py-0.5 rounded">
-                            {rm.type}
-                          </span>
-                          <h5 className="font-bold text-sm text-[#2A2421] truncate mt-1">{rm.title}</h5>
-                          <p className="text-xs text-[#786C66] truncate">{rm.location}</p>
-                          <p className="text-xs font-extrabold text-[#2A2421] mt-1.5">
-                            {formatPrice(rm.pricesAED.monthly)} /month
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-[10px] font-bold uppercase text-[#C5A059] bg-[#FBF4E6] px-2 py-0.5 rounded border border-[#C5A059]/20">
+                              {rm.type}
+                            </span>
+                            {rm.metroDistance && (
+                              <span className="text-[10px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded truncate max-w-[140px]">
+                                {rm.metroDistance}
+                              </span>
+                            )}
+                          </div>
+                          <h5 className="font-bold text-sm text-[#2A2421] truncate mt-1.5">{rm.title}</h5>
+                          <p className="text-xs text-[#786C66] truncate mt-0.5">{rm.location}</p>
+                          <p className="text-xs font-extrabold text-[#C5A059] mt-1.5">
+                            {formatPrice(rm.pricesAED.monthly)} <span className="text-[11px] font-normal text-[#786C66]">/ month</span>
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-col items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-[#EFE6DF] shrink-0">
                         <button
                           onClick={() => openEditModal(rm)}
-                          className="p-2 rounded-lg hover:bg-[#FAF6F0] text-[#786C66] hover:text-[#C5A059] transition-colors border border-transparent hover:border-[#EFE6DF]"
+                          className="px-3.5 py-2 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center gap-1.5 transition-colors border border-[#EFE6DF]"
                           title="Edit Room"
                         >
-                          <Edit2 className="w-4 h-4" />
+                          <Edit2 className="w-3.5 h-3.5 text-[#C5A059]" />
+                          <span>Edit</span>
                         </button>
                         <button
                           onClick={() => {
@@ -301,10 +314,11 @@ export function AdminPanel({
                               onDeleteRoom(rm.id);
                             }
                           }}
-                          className="p-2 rounded-lg hover:bg-red-50 text-[#786C66] hover:text-red-600 transition-colors border border-transparent hover:border-red-200"
+                          className="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center gap-1.5 transition-colors border border-red-200"
                           title="Delete Room"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
                         </button>
                       </div>
                     </div>
