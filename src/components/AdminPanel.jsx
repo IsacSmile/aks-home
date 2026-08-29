@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Shield, KeyRound, Plus, Edit2, Trash2, CheckCircle2, 
-  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft, Train, MapPin, Check, XCircle, Clock
+  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft, Train, MapPin, Check, XCircle, Clock, Upload
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -28,6 +28,7 @@ export function AdminPanel({
   // Add / Edit Modal Form State
   const [editingRoom, setEditingRoom] = useState(null); // null when adding
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -42,6 +43,22 @@ export function AdminPanel({
     description: '',
     featured: false
   });
+
+  const handleImageFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({ ...prev, imageUrl: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -630,15 +647,70 @@ export function AdminPanel({
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-xs font-semibold text-[#786C66] block mb-1">Image URL</label>
-                  <input
-                    type="text"
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    placeholder="e.g. /images/loft_partition.jpg or https://..."
-                    className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
-                  />
+                {/* Room Image - Local Upload & URL Input */}
+                <div className="space-y-2 p-3.5 bg-[#FAF6F0] rounded-xl border border-[#EFE6DF]">
+                  <label className="text-xs font-bold uppercase text-[#786C66] flex items-center justify-between">
+                    <span>Room Photo / Image</span>
+                    <span className="text-[10px] text-[#C5A059] font-semibold">Local File & Web URL</span>
+                  </label>
+
+                  {/* Live Thumbnail Preview if Image exists */}
+                  {formData.imageUrl ? (
+                    <div className="relative group rounded-xl overflow-hidden border border-[#EFE6DF] bg-white p-1.5 flex items-center gap-3">
+                      <img
+                        src={formData.imageUrl}
+                        alt="Room preview"
+                        className="w-16 h-14 rounded-lg object-cover border border-[#EFE6DF] shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[11px] font-bold text-[#2A2421] block truncate">
+                          Image Selected
+                        </span>
+                        <span className="text-[10px] text-[#786C66] block truncate">
+                          {formData.imageUrl.startsWith('data:') ? 'Local Device Upload' : formData.imageUrl}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, imageUrl: '' })}
+                        className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors border border-red-200 shrink-0"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {/* Local File Upload Button & Hidden File Input */}
+                  <div className="flex items-center gap-2 pt-0.5">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleImageFileUpload}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                      className="flex-1 py-2 px-3 rounded-xl bg-[#2A2421] hover:bg-[#1E1B18] text-[#E6C98B] hover:text-white text-xs font-bold transition-all border border-[#2A2421] flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer"
+                    >
+                      <Upload className="w-4 h-4 text-[#C5A059]" />
+                      <span>Upload Image from Computer / Phone</span>
+                    </button>
+                  </div>
+
+                  {/* Fallback Direct URL Input */}
+                  <div className="pt-1">
+                    <span className="text-[10px] text-[#786C66] block font-medium mb-1">Or paste direct image URL:</span>
+                    <input
+                      type="text"
+                      value={formData.imageUrl}
+                      onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                      placeholder="e.g. /images/loft_partition.jpg or https://..."
+                      className="w-full px-3 py-2 bg-white border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421]"
+                    />
+                  </div>
                 </div>
 
                 <div>
