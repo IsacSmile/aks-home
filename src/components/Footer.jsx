@@ -55,15 +55,19 @@ export function Footer({ setActivePage, onOpenAdmin }) {
               onClick={() => handleNavClick('home')} 
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-white">
-                <DoorOpen className="w-5 h-5" />
+              <div className="h-11 sm:h-12 w-11 sm:w-12 rounded-xl overflow-hidden shadow-md border border-[#C5A059]/40 bg-[#1E1B18] group-hover:scale-105 group-hover:border-[#C5A059] transition-all duration-300">
+                <img 
+                  src="/images/aks_logo.jpg" 
+                  alt="AKS HOME Main Logo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
-                <span className="font-heading font-bold text-xl text-white tracking-tight">
+                <span className="font-heading font-bold text-xl text-white tracking-tight group-hover:text-[#C5A059] transition-colors">
                   AKS <span className="text-[#C5A059]">HOME</span>
                 </span>
-                <p className="text-[10px] tracking-wider uppercase text-[#A39690] font-medium -mt-1">
-                  Dubai Flatshares
+                <p className="text-[9px] tracking-widest uppercase text-[#A39690] font-extrabold -mt-1">
+                  Partition Available
                 </p>
               </div>
             </div>

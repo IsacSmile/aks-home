@@ -28,17 +28,19 @@ export function Navbar({ activePage, setActivePage, onOpenAdmin }) {
             onClick={() => handleNavClick('home')} 
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#C5A059] to-[#E6C98B] p-[1.5px] shadow-sm group-hover:shadow transition-all">
-              <div className="w-full h-full bg-[#1E1B18] rounded-[10px] flex items-center justify-center text-[#E6C98B]">
-                <DoorOpen className="w-5 h-5 transition-transform group-hover:scale-110" />
-              </div>
+            <div className="h-11 sm:h-12 w-11 sm:w-12 rounded-xl overflow-hidden shadow-md border border-[#C5A059]/40 bg-[#1E1B18] group-hover:scale-105 group-hover:border-[#C5A059] transition-all duration-300">
+              <img 
+                src="/images/aks_logo.jpg" 
+                alt="AKS HOME Main Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <span className="font-heading font-bold text-xl tracking-tight text-[#2A2421]">
+              <span className="font-heading font-bold text-xl sm:text-2xl tracking-tight text-[#2A2421] group-hover:text-[#C5A059] transition-colors">
                 AKS <span className="text-[#C5A059]">HOME</span>
               </span>
-              <p className="text-[10px] tracking-wider uppercase text-[#786C66] font-medium -mt-1">
-                Dubai Flatshares
+              <p className="text-[9px] sm:text-[10px] tracking-widest uppercase text-[#786C66] font-extrabold -mt-1">
+                Partition Available
               </p>
             </div>
           </div>
