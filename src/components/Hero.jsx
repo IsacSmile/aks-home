@@ -1,11 +1,47 @@
-import React from 'react';
-import { Search, MapPin, CheckCircle2, Train, Zap, ArrowRight, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, MapPin, CheckCircle2, Train, Zap, ArrowRight, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
+
+const heroSlides = [
+  {
+    url: '/images/loft_partition.jpg',
+    title: 'Loft Partition with Window',
+    location: 'Baniyas Square Metro Exit 1',
+    price: '1,350 AED/mo'
+  },
+  {
+    url: '/images/blue_partition.jpg',
+    title: 'Compact Lower Partition',
+    location: 'Al Rigga Metro Exit 2',
+    price: '1,150 AED/mo'
+  },
+  {
+    url: '/images/compact_bed.jpg',
+    title: 'Executive Upper Partition',
+    location: 'Al Maktoum St (Clock Tower)',
+    price: '1,550 AED/mo'
+  },
+  {
+    url: '/images/capsule_pod.jpg',
+    title: 'Japanese Capsule Bed',
+    location: 'Gold Souk Metro Station',
+    price: '990 AED/mo'
+  }
+];
 
 export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedType, maxBudget, setMaxBudget }) {
   const { formatPrice } = useCurrency();
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const roomTypes = ['All', 'Loft Partition', 'Upper Partition', 'Lower Partition', 'Capsule Bed', 'Studio Partition', 'Window Partition'];
+
+  // Auto-slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToRooms = () => {
     const section = document.getElementById('rooms-grid-section');
@@ -14,80 +50,155 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
     }
   };
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
   return (
-    <section className="relative pt-10 pb-12 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 overflow-hidden">
-      {/* Soft Ambient Background Gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-gradient-to-b from-[#FAF4EC] via-[#FAF4EC]/60 to-transparent pointer-events-none -z-10 rounded-3xl" />
+    <section className="relative pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20 overflow-hidden bg-[#FDF8F3]">
+      {/* Soft Ambient Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-gradient-to-b from-[#FAF4EC] via-[#FAF4EC]/50 to-transparent pointer-events-none -z-10 rounded-3xl" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 sm:space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
-        {/* Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#2A2421] leading-snug sm:leading-tight tracking-tight max-w-3xl mx-auto">
-          Affordable Private Rooms in Dubai for{' '}
-          <span className="relative inline-block text-[#C5A059] font-extrabold">
-            Working Professionals
-            <span className="absolute bottom-1 left-0 w-full h-[3px] bg-[#C5A059]/30 rounded-full" />
-          </span>
-        </h1>
+        {/* Two-Column Hero Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          {/* LEFT SIDE: Text Content */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            
+            {/* 1. Small Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[11px] font-extrabold tracking-wider uppercase shadow-xs">
+              <MapPin className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>PRIME METRO LOCATIONS</span>
+            </div>
 
-        {/* Subheadline */}
-        <p className="text-base sm:text-lg text-[#786C66] max-w-2xl mx-auto font-normal leading-relaxed">
-          Clean partition rooms, loft beds & capsule spaces next to metro stations. Zero deposit. Zero commission.
-        </p>
+            {/* 2. Main Headline */}
+            <h1 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold text-[#2A2421] leading-[1.15] tracking-tight">
+              Affordable Private Rooms in Dubai{' '}
+              <span className="block text-[#C5A059] font-extrabold mt-1">
+                for Working Professionals
+              </span>
+            </h1>
 
-        {/* 4 Clean Minimal Trust Badges */}
-        <div className="pt-1 pb-2 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-xs font-semibold text-[#2A2421]">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-[#EFE6DF] shadow-2xs whitespace-nowrap">
-            <CheckCircle2 className="w-4 h-4 text-[#278A45] shrink-0" />
-            <span>No Deposit</span>
+            {/* 3. Short Supporting Paragraph */}
+            <p className="text-base sm:text-lg text-[#786C66] max-w-xl leading-relaxed font-normal">
+              Clean partition rooms, loft beds & capsule spaces next to metro stations. Zero deposit. Zero commission. Move in with peace of mind.
+            </p>
+
+            {/* 4. Two Action Buttons Side-by-Side */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+              <button
+                onClick={scrollToRooms}
+                className="px-7 py-3.5 rounded-full bg-[#2A2421] hover:bg-[#1E1B18] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+              >
+                <span>Browse Rooms</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#C5A059]" />
+              </button>
+
+              <a
+                href="https://wa.me/971507061925"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-full bg-white hover:bg-[#EBF7EE] text-[#25D366] border border-[#25D366]/40 text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-2xs"
+              >
+                <MessageCircle className="w-4 h-4 fill-[#25D366] text-white" />
+                <span>WhatsApp Us</span>
+              </a>
+            </div>
+
+            {/* 5. Bottom Small Trust Line */}
+            <div className="pt-3 border-t border-[#EFE6DF] flex flex-wrap items-center gap-2 text-xs font-medium text-[#786C66]">
+              <span className="flex items-center gap-1 font-semibold text-[#2A2421]">
+                📍 Baniyas Square • Clock Tower • Deira
+              </span>
+              <span className="text-[#C5A059] font-bold hidden sm:inline">|</span>
+              <span className="font-semibold text-[#278A45] bg-[#EBF7EE] px-2.5 py-0.5 rounded-full">
+                No Deposit • No Commission
+              </span>
+            </div>
+
           </div>
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-[#EFE6DF] shadow-2xs whitespace-nowrap">
-            <CheckCircle2 className="w-4 h-4 text-[#278A45] shrink-0" />
-            <span>No Commission</span>
+          {/* RIGHT SIDE: Large Image Carousel Card */}
+          <div className="lg:col-span-5">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#EFE6DF] bg-[#FAF6F0] aspect-[4/3] sm:aspect-[4/3] group">
+              
+              {/* Slides */}
+              {heroSlides.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                    index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                >
+                  <img
+                    src={slide.url}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Subtle Dark Bottom Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                </div>
+              ))}
+
+              {/* Prev / Next Controls */}
+              <button
+                onClick={prevSlide}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+
+              {/* Bottom Caption Overlay Pill */}
+              <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between gap-2">
+                <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-sm text-left max-w-[80%] border border-white/40">
+                  <span className="text-[10px] font-extrabold uppercase text-[#C5A059] block tracking-wider">
+                    {heroSlides[currentSlide].title}
+                  </span>
+                  <p className="text-xs font-bold text-[#2A2421] truncate mt-0.5">
+                    {heroSlides[currentSlide].location}
+                  </p>
+                </div>
+
+                {/* Carousel Pagination Dots */}
+                <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-2 rounded-full border border-white/20">
+                  {heroSlides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentSlide(i)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        i === currentSlide ? 'w-5 bg-[#C5A059]' : 'w-2 bg-white/60 hover:bg-white'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-[#EFE6DF] shadow-2xs whitespace-nowrap">
-            <Train className="w-4 h-4 text-[#C5A059] shrink-0" />
-            <span>1–3 Min Walk to Metro</span>
-          </div>
-
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-[#EFE6DF] shadow-2xs whitespace-nowrap">
-            <Zap className="w-4 h-4 text-[#C5A059] shrink-0" />
-            <span>Free WiFi & DEWA</span>
-          </div>
         </div>
 
-        {/* Primary CTA & Secondary WhatsApp Button */}
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          <button
-            onClick={scrollToRooms}
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#C5A059] hover:bg-[#B38E46] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
-          >
-            <span>Browse Available Rooms</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-
-          <a
-            href="https://wa.me/971507061925"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white hover:bg-[#EBF7EE] text-[#25D366] border border-[#25D366]/40 text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-2xs"
-          >
-            <MessageCircle className="w-4 h-4 fill-[#25D366] text-white" />
-            <span>WhatsApp Us (+971 50 706 1925)</span>
-          </a>
-        </div>
-
-        {/* Interactive Search & Filter Card */}
-        <div className="pt-6">
-          <div className="max-w-4xl mx-auto bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl shadow-sm border border-[#EFE6DF] text-left">
+        {/* Interactive Search & Filter Bar */}
+        <div className="pt-2">
+          <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-[#EFE6DF] text-left">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
               
               {/* Column 1: Search Location */}
               <div className="space-y-1.5">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-[#786C66] flex items-center gap-1 min-h-[20px]">
-                  <MapPin className="w-3.5 h-3.5 text-[#C5A059]" /> Location / Station
+                  <MapPin className="w-3.5 h-3.5 text-[#C5A059]" /> Search Location / Station
                 </label>
                 <div className="relative">
                   <input
