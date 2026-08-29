@@ -132,16 +132,16 @@ export function AdminPanel({
     <div className="w-full bg-white rounded-2xl sm:rounded-3xl shadow-md border border-[#EFE6DF] overflow-hidden flex flex-col min-h-[82vh]">
       
       {/* Header Bar - Full Width with High-Contrast Text */}
-      <div className="px-6 py-5 border-b border-[#EFE6DF] flex items-center justify-between bg-[#1E1B18] text-white shrink-0">
-        <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-white shadow-sm shrink-0">
-            <Shield className="w-5 h-5" />
+      <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#EFE6DF] flex items-center justify-between bg-[#1E1B18] text-white shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#C5A059] flex items-center justify-center text-white shadow-sm shrink-0">
+            <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <h3 className="font-extrabold text-lg sm:text-xl text-white tracking-tight leading-tight">
+            <h3 className="font-bold sm:font-extrabold text-base sm:text-xl text-white tracking-tight leading-tight">
               AKS Home Admin Dashboard
             </h3>
-            <p className="text-xs text-[#E6C98B] font-medium mt-0.5">
+            <p className="text-[11px] sm:text-xs text-[#E6C98B] font-medium mt-0.5">
               Full Access Property & Booking Lead Management
             </p>
           </div>
@@ -149,9 +149,9 @@ export function AdminPanel({
 
         <button
           onClick={onClose}
-          className="px-4 py-2 rounded-xl bg-[#2A2421] hover:bg-[#38312D] text-xs font-bold text-white flex items-center gap-2 transition-all border border-[#3A332E] shrink-0"
+          className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#2A2421] hover:bg-[#38312D] text-xs font-bold text-white flex items-center gap-1.5 transition-all border border-[#3A332E] shrink-0"
         >
-          <ArrowLeft className="w-4 h-4 text-[#C5A059]" />
+          <ArrowLeft className="w-3.5 h-3.5 text-[#C5A059]" />
           <span className="hidden sm:inline">Exit Admin</span>
           <span className="sm:hidden">Exit</span>
         </button>
@@ -159,13 +159,13 @@ export function AdminPanel({
 
       {/* Passkey Login Screen if Not Authenticated */}
       {!isAuthenticated ? (
-        <div className="p-8 sm:p-16 text-center max-w-md mx-auto my-auto space-y-6 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-[#FBF4E6] text-[#C5A059] border border-[#C5A059]/30 mx-auto flex items-center justify-center shadow-xs">
-            <Lock className="w-8 h-8" />
+        <div className="p-6 sm:p-16 text-center max-w-md mx-auto my-auto space-y-6 animate-fade-in">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FBF4E6] text-[#C5A059] border border-[#C5A059]/30 mx-auto flex items-center justify-center shadow-xs">
+            <Lock className="w-7 h-7 sm:w-8 sm:h-8" />
           </div>
 
           <div className="space-y-1">
-            <h4 className="text-xl font-bold text-[#2A2421]">Admin Authentication Required</h4>
+            <h4 className="text-lg sm:text-xl font-bold text-[#2A2421]">Admin Authentication Required</h4>
             <p className="text-xs text-[#786C66]">
               Enter admin passkey to access room management & customer leads.
             </p>
@@ -210,29 +210,29 @@ export function AdminPanel({
         <div className="flex-1 flex flex-col overflow-hidden">
           
           {/* Navigation Tabs - Responsive Layout */}
-          <div className="px-4 sm:px-6 pt-4 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+          <div className="px-4 sm:px-6 pt-3.5 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shrink-0">
             <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
               <button
                 onClick={() => setActiveTab('rooms')}
-                className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
+                className={`px-3.5 sm:px-5 py-2 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
                   activeTab === 'rooms'
                     ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
                     : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
                 }`}
               >
-                <Building2 className="w-4 h-4 text-[#C5A059]" />
+                <Building2 className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>Rooms Management ({rooms.length})</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('enquiries')}
-                className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
+                className={`px-3.5 sm:px-5 py-2 sm:py-3 rounded-t-xl text-xs font-bold transition-all flex items-center gap-2 border-t border-x shrink-0 ${
                   activeTab === 'enquiries'
                     ? 'bg-white text-[#2A2421] border-[#EFE6DF] shadow-xs'
                     : 'border-transparent text-[#786C66] hover:text-[#2A2421]'
                 }`}
               >
-                <MessageSquare className="w-4 h-4 text-[#C5A059]" />
+                <MessageSquare className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>Enquiries ({enquiries.length})</span>
               </button>
             </div>
@@ -240,7 +240,7 @@ export function AdminPanel({
             <div className="flex items-center justify-end gap-2 pb-2 sm:pb-0">
               <button
                 onClick={onResetSeed}
-                className="px-3.5 py-2 rounded-xl border border-[#EFE6DF] bg-white text-xs font-semibold text-[#786C66] hover:text-[#2A2421] flex items-center gap-1.5 transition-colors shadow-2xs"
+                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-[#EFE6DF] bg-white text-[11px] sm:text-xs font-semibold text-[#786C66] hover:text-[#2A2421] flex items-center gap-1.5 transition-colors shadow-2xs"
                 title="Reset to 6 sample rooms data"
               >
                 <RefreshCw className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -250,87 +250,87 @@ export function AdminPanel({
           </div>
 
           {/* Main Content Area - Full Width */}
-          <div className="p-4 sm:p-8 overflow-y-auto flex-1 space-y-6">
+          <div className="p-3.5 sm:p-8 overflow-y-auto flex-1 space-y-5 sm:space-y-6">
             
             {/* TAB 1: ROOMS MANAGEMENT */}
             {activeTab === 'rooms' && (
-              <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h4 className="text-xl font-bold text-[#2A2421]">Active Room Listings</h4>
-                    <p className="text-xs text-[#786C66]">Manage properties, update pricing, or add new partition rooms in real-time.</p>
+                    <h4 className="text-lg sm:text-xl font-bold text-[#2A2421]">Active Room Listings</h4>
+                    <p className="text-[11px] sm:text-xs text-[#786C66]">Manage properties, update pricing, or add new partition rooms in real-time.</p>
                   </div>
 
                   <button
                     onClick={openAddModal}
-                    className="px-5 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto shrink-0"
+                    className="px-3.5 py-2 sm:px-5 sm:py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5 self-start sm:self-auto shrink-0"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add New Room Listing</span>
                   </button>
                 </div>
 
-                {/* Rooms Grid - Spacious 2-Column Desktop Grid for Un-truncated Cards */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+                {/* Rooms Grid - Smooth, Compact Mobile Scaling */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {rooms.map((rm) => (
                     <div 
                       key={rm.id} 
-                      className="p-4 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:border-[#C5A059]/50 hover:shadow-md transition-all"
+                      className="p-3.5 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 shadow-xs hover:border-[#C5A059]/50 hover:shadow-md transition-all"
                     >
                       
                       {/* Left & Middle Info Section */}
-                      <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1 w-full">
+                      <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1 w-full">
                         
-                        {/* Fixed Size Thumbnail Image */}
+                        {/* Compact Thumbnail Image on Mobile */}
                         <img
                           src={rm.images[0]}
                           alt={rm.title}
-                          className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border border-[#EFE6DF] shrink-0 shadow-2xs"
+                          className="w-20 h-20 sm:w-28 sm:h-28 rounded-xl sm:rounded-2xl object-cover border border-[#EFE6DF] shrink-0 shadow-2xs"
                         />
 
-                        {/* Room Details Column */}
+                        {/* Room Details Column - Scaled Fonts */}
                         <div className="min-w-0 flex-1 space-y-1 text-left">
                           
-                          {/* Room Type & Metro Distance Badges */}
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[11px] font-extrabold uppercase text-[#C5A059] bg-[#FBF4E6] px-2.5 py-0.5 rounded-md border border-[#C5A059]/20">
+                          {/* Type & Metro Badges */}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] sm:text-[11px] font-extrabold uppercase text-[#C5A059] bg-[#FBF4E6] px-2 py-0.5 rounded-md border border-[#C5A059]/20">
                               {rm.type}
                             </span>
                             {rm.metroDistance && (
-                              <span className="text-[11px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2.5 py-0.5 rounded-md border border-[#EFE6DF] flex items-center gap-1">
+                              <span className="text-[10px] sm:text-[11px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded-md border border-[#EFE6DF] flex items-center gap-1">
                                 <Train className="w-3 h-3 text-[#C5A059] shrink-0" />
-                                <span>{rm.metroDistance}</span>
+                                <span className="truncate max-w-[140px] sm:max-w-none">{rm.metroDistance}</span>
                               </span>
                             )}
                           </div>
 
-                          {/* Full Title (No Truncation, wraps up to 2 lines max) */}
-                          <h5 className="font-extrabold text-base sm:text-lg text-[#2A2421] leading-snug line-clamp-2 mt-1">
+                          {/* Full Title (Compact Font Size on Mobile) */}
+                          <h5 className="font-bold text-sm sm:text-base text-[#2A2421] leading-snug line-clamp-2 mt-0.5">
                             {rm.title}
                           </h5>
 
-                          {/* Full Location */}
-                          <p className="text-xs sm:text-sm text-[#786C66] flex items-center gap-1 font-medium">
+                          {/* Location */}
+                          <p className="text-[11px] sm:text-xs text-[#786C66] flex items-center gap-1 font-medium">
                             <MapPin className="w-3.5 h-3.5 text-[#A39690] shrink-0" />
-                            <span>{rm.location}</span>
+                            <span className="truncate">{rm.location}</span>
                           </p>
 
-                          {/* Clear Price */}
-                          <div className="pt-1">
-                            <span className="text-base sm:text-lg font-extrabold text-[#2A2421]">
+                          {/* Price */}
+                          <div className="pt-0.5">
+                            <span className="text-sm sm:text-base font-extrabold text-[#2A2421]">
                               {formatPrice(rm.pricesAED.monthly)}
                             </span>
-                            <span className="text-xs text-[#786C66] font-medium ml-1">/ month</span>
+                            <span className="text-[11px] sm:text-xs text-[#786C66] font-medium ml-1">/ month</span>
                           </div>
 
                         </div>
                       </div>
 
                       {/* Right Action Buttons Column */}
-                      <div className="flex flex-row sm:flex-col items-center justify-end gap-2.5 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-[#EFE6DF] shrink-0">
+                      <div className="flex flex-row sm:flex-col items-center justify-end gap-2 w-full sm:w-auto border-t sm:border-t-0 pt-2.5 sm:pt-0 border-[#EFE6DF] shrink-0">
                         <button
                           onClick={() => openEditModal(rm)}
-                          className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-[#EFE6DF] shadow-2xs"
+                          className="flex-1 sm:flex-none px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center justify-center gap-1 transition-colors border border-[#EFE6DF] shadow-2xs"
                           title="Edit Room"
                         >
                           <Edit2 className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -342,7 +342,7 @@ export function AdminPanel({
                               onDeleteRoom(rm.id);
                             }
                           }}
-                          className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-red-200/70 shadow-2xs"
+                          className="flex-1 sm:flex-none px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center justify-center gap-1 transition-colors border border-red-200/70 shadow-2xs"
                           title="Delete Room"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -360,12 +360,12 @@ export function AdminPanel({
             {activeTab === 'enquiries' && (
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-xl font-bold text-[#2A2421]">Customer Booking Enquiries</h4>
-                  <p className="text-xs text-[#786C66]">Real-time customer leads submitted via room detail pages.</p>
+                  <h4 className="text-lg sm:text-xl font-bold text-[#2A2421]">Customer Booking Enquiries</h4>
+                  <p className="text-[11px] sm:text-xs text-[#786C66]">Real-time customer leads submitted via room detail pages.</p>
                 </div>
 
                 {enquiries.length === 0 ? (
-                  <div className="p-16 text-center bg-[#FDF8F3] rounded-3xl border border-[#EFE6DF] space-y-3">
+                  <div className="p-10 sm:p-16 text-center bg-[#FDF8F3] rounded-3xl border border-[#EFE6DF] space-y-3">
                     <MessageSquare className="w-10 h-10 text-[#A39690] mx-auto" />
                     <h5 className="text-base font-bold text-[#2A2421]">No Customer Enquiries Yet</h5>
                     <p className="text-xs text-[#786C66] max-w-sm mx-auto">
@@ -375,13 +375,13 @@ export function AdminPanel({
                 ) : (
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {enquiries.map((enq) => (
-                      <div key={enq.id} className="p-6 rounded-2xl border border-[#EFE6DF] bg-white space-y-4 shadow-2xs hover:border-[#C5A059]/40 transition-all">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#EFE6DF]">
+                      <div key={enq.id} className="p-4 sm:p-6 rounded-2xl border border-[#EFE6DF] bg-white space-y-3 sm:space-y-4 shadow-2xs hover:border-[#C5A059]/40 transition-all">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#EFE6DF]">
                           <div>
                             <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#C5A059] px-2.5 py-0.5 rounded-full">
                               {enq.duration} Stay
                             </span>
-                            <h5 className="font-bold text-lg text-[#2A2421] mt-1.5">{enq.name}</h5>
+                            <h5 className="font-bold text-base sm:text-lg text-[#2A2421] mt-1">{enq.name}</h5>
                           </div>
                           <div className="text-left sm:text-right">
                             <span className="text-xs text-[#786C66] block">{enq.submittedAt}</span>
@@ -391,7 +391,7 @@ export function AdminPanel({
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-[#786C66]">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-[#786C66]">
                           <div className="flex items-center gap-2">
                             <Building2 className="w-4 h-4 text-[#C5A059] shrink-0" />
                             <span className="truncate font-medium text-[#2A2421]">{enq.roomTitle}</span>
@@ -409,7 +409,7 @@ export function AdminPanel({
                         </div>
 
                         {enq.message && (
-                          <div className="p-3.5 bg-[#FDF8F3] rounded-xl text-xs text-[#2A2421] border border-[#EFE6DF]">
+                          <div className="p-3 bg-[#FDF8F3] rounded-xl text-xs text-[#2A2421] border border-[#EFE6DF]">
                             <span className="font-bold text-[#786C66] block mb-1 uppercase text-[10px]">Customer Note:</span>
                             "{enq.message}"
                           </div>
