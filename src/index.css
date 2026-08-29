@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg-main: #FDF8F3;
   --bg-card: #FFFFFF;
@@ -107,24 +111,6 @@ input, select, textarea {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
-}
-
-/* Badge styles */
-.badge-gold {
-  background-color: var(--accent-gold-light);
-  color: var(--accent-gold);
-  border: 1px solid rgba(197, 160, 89, 0.25);
-}
-
-.badge-subtle {
-  background-color: var(--bg-subtle);
-  color: var(--text-muted);
-}
-
-.badge-green {
-  background-color: #EBF7EE;
-  color: #278A45;
-  border: 1px solid rgba(39, 138, 69, 0.2);
 }
 
 /* Modal overlay backdrop */

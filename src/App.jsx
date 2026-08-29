@@ -9,6 +9,8 @@ import { EnquiryModal } from './components/EnquiryModal';
 import { About } from './components/About';
 import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
+import { TrustSections } from './components/TrustSections';
+import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { DoorOpen, Sparkles, Building2, Train, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export default function App() {
@@ -52,7 +54,7 @@ export default function App() {
   // 4. Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
-  const [maxBudget, setMaxBudget] = useState(2500);
+  const [maxBudget, setMaxBudget] = useState(2300);
 
   // 5. Modal Controllers
   const [selectedDetailRoom, setSelectedDetailRoom] = useState(null);
@@ -136,8 +138,8 @@ export default function App() {
                 setMaxBudget={setMaxBudget}
               />
 
-              {/* Rooms Section */}
-              <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+              {/* Rooms Grid Section */}
+              <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
                 
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#EFE6DF] pb-4">
                   <div>
@@ -169,7 +171,7 @@ export default function App() {
                       onClick={() => {
                         setSearchQuery('');
                         setSelectedType('All');
-                        setMaxBudget(2500);
+                        setMaxBudget(2300);
                       }}
                       className="px-5 py-2.5 rounded-xl bg-[#C5A059] text-white text-xs font-bold"
                     >
@@ -190,51 +192,8 @@ export default function App() {
                 )}
               </section>
 
-              {/* Trust & Guarantee Strip */}
-              <section className="bg-[#1E1B18] text-white py-14 my-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-                  <div className="max-w-2xl mx-auto space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#C5A059]">
-                      Why Choose AKS Home
-                    </span>
-                    <h3 className="text-2xl sm:text-4xl font-bold">
-                      The Simplest Way to Rent a Room in Dubai
-                    </h3>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
-                    <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#3A332E] space-y-2">
-                      <div className="w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-lg">
-                        1
-                      </div>
-                      <h4 className="font-bold text-base">Select Your Room</h4>
-                      <p className="text-xs text-[#A39690] leading-relaxed">
-                        Browse verified photos, Metro exit walking distances, and multi-currency rates in AED, INR & USD.
-                      </p>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#3A332E] space-y-2">
-                      <div className="w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-lg">
-                        2
-                      </div>
-                      <h4 className="font-bold text-base">Send Free Enquiry</h4>
-                      <p className="text-xs text-[#A39690] leading-relaxed">
-                        Fill in your preferred move-in date. Zero deposit or broker commissions required.
-                      </p>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-[#2A2421] border border-[#3A332E] space-y-2">
-                      <div className="w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center font-bold text-lg">
-                        3
-                      </div>
-                      <h4 className="font-bold text-base">Move In & Enjoy</h4>
-                      <p className="text-xs text-[#A39690] leading-relaxed">
-                        Get your key, high-speed WiFi password, and enjoy a quiet living space near your metro station.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </section>
+              {/* New Trust Sections: Why Trust Us, How It Works, Real Reviews */}
+              <TrustSections onExploreRooms={() => setActivePage('rooms')} />
             </div>
           )}
 
@@ -316,6 +275,9 @@ export default function App() {
             onClose={() => setIsAdminOpen(false)}
           />
         )}
+
+        {/* Sticky Floating WhatsApp Action Button */}
+        <WhatsAppFloat roomName={selectedDetailRoom ? selectedDetailRoom.title : null} />
 
         {/* Bottom Footer */}
         <Footer

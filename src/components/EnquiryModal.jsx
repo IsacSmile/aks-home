@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useCurrency } from '../context/CurrencyContext';
-import { X, CheckCircle2, Send, Calendar, User, Phone, Mail, MessageSquare, ShieldCheck, MapPin } from 'lucide-react';
+import { 
+  X, Send, CheckCircle2, Calendar, Phone, Mail, User, 
+  MessageSquare, ShieldCheck, MapPin, Train, Sparkles, MessageCircle 
+} from 'lucide-react';
 
 export function EnquiryModal({ room, onClose, onSubmitEnquiry }) {
   if (!room) return null;
 
   const { formatPrice, currency } = useCurrency();
 
-  const [duration, setDuration] = useState('monthly'); // 'daily' | 'weekly' | 'monthly'
+  const [duration, setDuration] = useState('Monthly'); // Default Monthly
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -15,63 +18,54 @@ export function EnquiryModal({ room, onClose, onSubmitEnquiry }) {
     moveInDate: '',
     message: ''
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    const enquiryPayload = {
+    const enquiryData = {
       id: 'enq-' + Date.now(),
       roomId: room.id,
       roomTitle: room.title,
       roomLocation: room.location,
       duration,
-      rateAED: room.pricesAED[duration],
-      currency,
-      name: formData.name,
-      phone: formData.phone,
-      email: formData.email,
-      moveInDate: formData.moveInDate,
-      message: formData.message,
-      submittedAt: new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      ...formData,
+      submittedAt: new Date().toLocaleString('en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
       })
     };
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      if (onSubmitEnquiry) {
-        onSubmitEnquiry(enquiryPayload);
-      }
-    }, 600);
+    onSubmitEnquiry(enquiryData);
+    setIsSubmitted(true);
   };
 
-  const getRateForDuration = () => {
-    return formatPrice(room.pricesAED[duration]);
+  const getPriceForDuration = () => {
+    if (duration === 'Daily') return room.pricesAED.daily;
+    if (duration === 'Weekly') return room.pricesAED.weekly;
+    return room.pricesAED.monthly;
   };
+
+  const whatsappDirectMessage = `Hi AKS Home, I submitted an enquiry for ${room.title} (${duration} stay). My name is ${formData.name || 'a customer'}.`;
+  const whatsappDirectUrl = `https://wa.me/971507061925?text=${encodeURIComponent(whatsappDirectMessage)}`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto modal-overlay flex items-center justify-center p-3 sm:p-6 animate-fade-in">
       <div 
-        className="bg-white w-full max-w-lg rounded-2xl sm:rounded-3xl shadow-xl border border-[#EFE6DF] overflow-hidden my-auto animate-slide-up"
+        className="bg-white w-full max-w-xl rounded-2xl sm:rounded-3xl shadow-xl border border-[#EFE6DF] overflow-hidden my-auto max-h-[92vh] flex flex-col animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         
-        {/* Modal Header */}
+        {/* Header Bar */}
         <div className="px-6 py-4 border-b border-[#EFE6DF] flex items-center justify-between bg-[#FDF8F3]">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#C5A059]">
-              Booking Enquiry
-            </span>
-            <h3 className="text-lg font-bold text-[#2A2421]">Reserve Room Partition</h3>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C5A059] animate-pulse" />
+            <h3 className="font-bold text-base text-[#2A2421]">
+              Room Enquiry & Booking Request
+            </h3>
           </div>
+
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-white hover:bg-[#F7EFEC] border border-[#EFE6DF] text-[#2A2421] flex items-center justify-center transition-colors"
@@ -80,221 +74,212 @@ export function EnquiryModal({ room, onClose, onSubmitEnquiry }) {
           </button>
         </div>
 
-        {/* Submitted Success View */}
-        {submitted ? (
-          <div className="p-8 text-center space-y-5 animate-fade-in">
+        {/* Content Body */}
+        {isSubmitted ? (
+          /* SUCCESS STATE */
+          <div className="p-8 sm:p-10 text-center space-y-6 animate-fade-in">
             <div className="w-16 h-16 rounded-full bg-[#EBF7EE] text-[#278A45] border border-[#278A45]/30 mx-auto flex items-center justify-center">
-              <CheckCircle2 className="w-10 h-10" />
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-            
+
             <div className="space-y-2">
-              <h4 className="text-2xl font-bold text-[#2A2421]">Enquiry Received!</h4>
-              <p className="text-sm text-[#786C66] max-w-sm mx-auto">
-                Thank you <span className="font-semibold text-[#2A2421]">{formData.name}</span>. Our team will contact you on WhatsApp / Phone shortly regarding <span className="font-semibold text-[#2A2421]">{room.title}</span>.
+              <h4 className="text-2xl font-extrabold text-[#2A2421]">
+                Enquiry Sent Successfully!
+              </h4>
+              <p className="text-sm text-[#786C66] max-w-md mx-auto">
+                Thank you, <span className="font-bold text-[#2A2421]">{formData.name}</span>. We usually reply within <span className="text-[#C5A059] font-bold">30–60 minutes</span> on WhatsApp.
               </p>
             </div>
 
-            <div className="bg-[#FDF8F3] p-4 rounded-2xl border border-[#EFE6DF] text-xs text-[#786C66] text-left space-y-1.5">
-              <div className="flex justify-between">
+            <div className="p-4 bg-[#FDF8F3] rounded-2xl border border-[#EFE6DF] text-left text-xs space-y-2">
+              <div className="flex justify-between text-[#786C66]">
+                <span>Room Reserved:</span>
+                <span className="font-bold text-[#2A2421]">{room.title}</span>
+              </div>
+              <div className="flex justify-between text-[#786C66]">
+                <span>Stay Duration:</span>
+                <span className="font-bold text-[#2A2421]">{duration} Option</span>
+              </div>
+              <div className="flex justify-between text-[#786C66]">
                 <span>Move-in Date:</span>
-                <span className="font-semibold text-[#2A2421]">{formData.moveInDate || 'Immediate'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Rental Option:</span>
-                <span className="font-semibold text-[#2A2421] uppercase">{duration} ({getRateForDuration()})</span>
-              </div>
-              <div className="flex justify-between">
-                <span>No Deposit / No Commission:</span>
-                <span className="font-semibold text-[#278A45]">Guaranteed</span>
+                <span className="font-bold text-[#278A45]">{formData.moveInDate || 'Immediate'}</span>
               </div>
             </div>
 
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="space-y-3 pt-2">
               <a
-                href={`https://wa.me/971500000000?text=Hi%20AKS%20Home,%20I%20enquired%20for%20${encodeURIComponent(room.title)}%20(${duration}%20stay).`}
+                href={whatsappDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-sm font-bold shadow transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-bold shadow transition-all flex items-center justify-center gap-2"
               >
-                <span>Instant Connect on WhatsApp</span>
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Connect Instantly on WhatsApp (+971 50 706 1925)</span>
               </a>
+
               <button
                 onClick={onClose}
-                className="w-full py-2.5 rounded-xl border border-[#EFE6DF] text-sm font-semibold text-[#786C66] hover:bg-[#F7EFEC] transition-colors"
+                className="w-full py-2.5 px-4 rounded-xl bg-[#FAF6F0] text-[#2A2421] text-xs font-bold border border-[#EFE6DF]"
               >
-                Back to Listings
+                Close & Return to Listings
               </button>
             </div>
           </div>
         ) : (
           
-          /* Form View */
-          <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          /* FORM STATE */
+          <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-5 text-left flex-1">
             
-            {/* Selected Room Summary Box */}
-            <div className="p-3.5 bg-[#FAF6F0] rounded-xl border border-[#EFE6DF] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img
-                  src={room.images[0]}
-                  alt={room.title}
-                  className="w-12 h-12 rounded-lg object-cover border border-[#EFE6DF]"
-                />
-                <div>
-                  <h4 className="text-sm font-bold text-[#2A2421] line-clamp-1">{room.title}</h4>
-                  <p className="text-xs text-[#786C66] flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-[#C5A059]" />
-                    <span className="truncate">{room.location}</span>
-                  </p>
-                </div>
+            {/* Selected Room Preview Strip */}
+            <div className="p-3.5 rounded-2xl bg-[#FDF8F3] border border-[#EFE6DF] flex items-center gap-3">
+              <img
+                src={room.images[0]}
+                alt={room.title}
+                className="w-14 h-14 rounded-xl object-cover border border-[#EFE6DF] shrink-0"
+              />
+              <div className="min-w-0 flex-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#C5A059]">
+                  {room.type}
+                </span>
+                <h4 className="font-bold text-xs text-[#2A2421] truncate">{room.title}</h4>
+                <p className="text-[11px] text-[#786C66] truncate">{room.location}</p>
               </div>
             </div>
 
-            {/* Duration Selector Tabs */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase text-[#786C66] flex items-center justify-between">
-                <span>Select Booking Duration</span>
-                <span className="text-[11px] text-[#C5A059] font-bold">Monthly Recommended</span>
+            {/* Stay Duration Selector */}
+            <div>
+              <label className="text-xs font-bold uppercase text-[#786C66] block mb-1.5">
+                Select Stay Option
               </label>
-              <div className="grid grid-cols-3 gap-2 bg-[#FAF6F0] p-1 rounded-xl border border-[#EFE6DF]">
-                {[
-                  { key: 'monthly', label: 'Monthly', rate: room.pricesAED.monthly, badge: 'Best Value' },
-                  { key: 'weekly', label: 'Weekly', rate: room.pricesAED.weekly },
-                  { key: 'daily', label: 'Daily', rate: room.pricesAED.daily }
-                ].map((item) => (
+              <div className="grid grid-cols-3 gap-2">
+                {['Monthly', 'Weekly', 'Daily'].map((opt) => (
                   <button
-                    key={item.key}
+                    key={opt}
                     type="button"
-                    onClick={() => setDuration(item.key)}
-                    className={`py-2 px-2 rounded-lg text-xs font-semibold text-center transition-all flex flex-col items-center ${
-                      duration === item.key
-                        ? 'bg-white text-[#2A2421] shadow-xs border border-[#EFE6DF]'
-                        : 'text-[#786C66] hover:text-[#2A2421]'
+                    onClick={() => setDuration(opt)}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
+                      duration === opt
+                        ? 'bg-[#C5A059] text-white border-[#C5A059] shadow-xs'
+                        : 'bg-[#FAF6F0] text-[#786C66] border-[#EFE6DF] hover:bg-white'
                     }`}
                   >
-                    <span>{item.label}</span>
-                    <span className="text-[11px] text-[#C5A059] font-bold">
-                      {formatPrice(item.rate)}
-                    </span>
+                    {opt}
                   </button>
                 ))}
               </div>
+              <p className="text-[11px] text-[#A39690] mt-1">
+                Estimated Rate: <span className="font-bold text-[#2A2421]">{formatPrice(getPriceForDuration())}</span> ({duration})
+              </p>
             </div>
 
-            {/* Input Fields */}
-            <div className="space-y-3.5">
+            {/* Form Input Fields */}
+            <div className="space-y-3">
               
-              {/* Full Name */}
               <div>
-                <label className="text-xs font-medium text-[#2A2421] block mb-1">
-                  Full Name <span className="text-red-500">*</span>
+                <label className="text-xs font-semibold text-[#786C66] block mb-1">
+                  Full Name *
                 </label>
                 <div className="relative">
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Rahul Sharma / John Smith"
+                    placeholder="e.g. Rahul Sharma"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all"
+                    className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"
                   />
-                  <User className="w-4 h-4 text-[#A39690] absolute left-3 top-3" />
+                  <User className="w-4 h-4 text-[#A39690] absolute left-3 top-2.5" />
                 </div>
               </div>
 
-              {/* Phone / WhatsApp */}
-              <div>
-                <label className="text-xs font-medium text-[#2A2421] block mb-1">
-                  WhatsApp / Phone Number <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+971 50 123 4567 or +91 98765 43210"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all"
-                  />
-                  <Phone className="w-4 h-4 text-[#A39690] absolute left-3 top-3" />
-                </div>
-              </div>
-
-              {/* Email & Move-in Date Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-[#2A2421] block mb-1">
-                    Email Address <span className="text-red-500">*</span>
+                  <label className="text-xs font-semibold text-[#786C66] block mb-1">
+                    WhatsApp Number *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      required
+                      placeholder="+971 50 000 0000"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"
+                    />
+                    <Phone className="w-4 h-4 text-[#A39690] absolute left-3 top-2.5" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-[#786C66] block mb-1">
+                    Email Address *
                   </label>
                   <div className="relative">
                     <input
                       type="email"
                       required
-                      placeholder="your.email@gmail.com"
+                      placeholder="rahul@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all"
+                      className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"
                     />
-                    <Mail className="w-4 h-4 text-[#A39690] absolute left-3 top-3" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-medium text-[#2A2421] block mb-1">
-                    Preferred Move-in Date <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      required
-                      value={formData.moveInDate}
-                      onChange={(e) => setFormData({ ...formData, moveInDate: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all"
-                    />
-                    <Calendar className="w-4 h-4 text-[#A39690] absolute left-3 top-3 pointer-events-none" />
+                    <Mail className="w-4 h-4 text-[#A39690] absolute left-3 top-2.5" />
                   </div>
                 </div>
               </div>
 
-              {/* Message */}
               <div>
-                <label className="text-xs font-medium text-[#2A2421] block mb-1">
-                  Message / Special Request (Optional)
+                <label className="text-xs font-semibold text-[#786C66] block mb-1">
+                  Preferred Move-in Date
                 </label>
                 <div className="relative">
-                  <textarea
-                    rows="2"
-                    placeholder="e.g. Looking for lower partition, night shift worker..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all resize-none"
-                  ></textarea>
-                  <MessageSquare className="w-4 h-4 text-[#A39690] absolute left-3 top-3" />
+                  <input
+                    type="date"
+                    value={formData.moveInDate}
+                    onChange={(e) => setFormData({ ...formData, moveInDate: e.target.value })}
+                    className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"
+                  />
+                  <Calendar className="w-4 h-4 text-[#A39690] absolute left-3 top-2.5" />
                 </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-[#786C66] block mb-1">
+                  Additional Note / Message
+                </label>
+                <textarea
+                  rows="2"
+                  placeholder="e.g. Looking for a quiet space, working in IT at Deira."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white resize-none"
+                />
               </div>
 
             </div>
 
-            {/* Zero Commission Guarantee Notice */}
-            <div className="p-3 bg-[#EBF7EE] rounded-xl border border-[#278A45]/20 flex items-center gap-2 text-xs text-[#278A45]">
-              <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>No deposit or broker commission will be charged upon move-in.</span>
+            {/* Response Time Guarantee Note */}
+            <div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#EFE6DF] flex items-center gap-2 text-xs text-[#786C66]">
+              <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
+              <span>We usually reply within <strong className="text-[#2A2421]">30–60 minutes</strong> on WhatsApp (+971 50 706 1925).</span>
             </div>
 
-            {/* Submit CTA */}
-            <div className="pt-2">
+            {/* Form Actions */}
+            <div className="pt-2 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 text-xs font-semibold text-[#786C66]"
+              >
+                Cancel
+              </button>
+
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3.5 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="px-6 py-2.5 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2"
               >
-                {isSubmitting ? (
-                  <span>Sending Enquiry...</span>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit Free Enquiry ({getRateForDuration()})</span>
-                  </>
-                )}
+                <Send className="w-3.5 h-3.5" />
+                <span>Submit Room Enquiry</span>
               </button>
             </div>
 

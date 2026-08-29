@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCurrency } from '../context/CurrencyContext';
 import { 
   X, MapPin, Calendar, CheckCircle2, ShieldCheck, 
-  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, DollarSign 
+  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, MessageCircle, Eye, BadgeCheck
 } from 'lucide-react';
 
 export function RoomDetailModal({ room, onClose, onBookNow }) {
@@ -14,6 +14,9 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
   const monthlyPrices = getMultiCurrencyPrices(room.pricesAED.monthly);
   const weeklyPrices = getMultiCurrencyPrices(room.pricesAED.weekly);
   const dailyPrices = getMultiCurrencyPrices(room.pricesAED.daily);
+
+  const whatsappMessage = `Hi AKS Home, I'm interested in viewing: ${room.title} (${room.location}). Please share viewing availability.`;
+  const whatsappUrl = `https://wa.me/971507061925?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto modal-overlay flex items-center justify-center p-3 sm:p-6 animate-fade-in">
@@ -28,9 +31,8 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#C5A059] text-white">
               {room.type}
             </span>
-            <span className="text-xs font-semibold text-[#278A45] bg-[#EBF7EE] px-2.5 py-1 rounded-full flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5" />
-              {room.availabilityDate}
+            <span className="text-xs font-bold text-[#278A45] bg-[#EBF7EE] px-2.5 py-1 rounded-full flex items-center gap-1">
+              <BadgeCheck className="w-3.5 h-3.5" /> Verified Listing
             </span>
           </div>
 
@@ -54,8 +56,8 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
                 className="w-full h-full object-cover transition-all duration-300"
               />
               
-              {/* Overlay Metro Badge */}
-              <div className="absolute bottom-3 left-3 bg-[#1E1B18]/85 text-white px-3.5 py-1.5 rounded-full text-xs font-medium backdrop-blur-md flex items-center gap-1.5">
+              {/* Metro Distance Badge */}
+              <div className="absolute bottom-3 left-3 bg-[#1E1B18]/85 text-white px-3.5 py-1.5 rounded-full text-xs font-bold backdrop-blur-md flex items-center gap-1.5 shadow-xs">
                 <Train className="w-4 h-4 text-[#C5A059]" />
                 <span>{room.metroDistance}</span>
               </div>
@@ -92,47 +94,38 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             </p>
           </div>
 
-          {/* Clean Badges Grid */}
+          {/* Exact Amenity Badges Checklist Requested */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#786C66]">
-              Key Highlights & Amenities
+              Key Amenities & Features
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Sparkles className="w-4 h-4 text-[#C5A059]" />
-                <span>{room.type}</span>
+                <span>✨</span> <span>{room.type} with Window</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Train className="w-4 h-4 text-[#C5A059]" />
-                <span>{room.metroDistance}</span>
+                <span>📍</span> <span>{room.metroDistance}</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Calendar className="w-4 h-4 text-[#C5A059]" />
-                <span>{room.availabilityDate}</span>
+                <span>🗓️</span> <span>{room.availabilityDate}</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#EBF7EE] border border-[#278A45]/20 text-xs font-semibold text-[#278A45]">
-                <ShieldCheck className="w-4 h-4" />
-                <span>No Deposit Required</span>
+                <span>✅</span> <span>No Deposit Required</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#EBF7EE] border border-[#278A45]/20 text-xs font-semibold text-[#278A45]">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Zero Commission</span>
+                <span>✅</span> <span>No Commission</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Wifi className="w-4 h-4 text-[#C5A059]" />
-                <span>High-Speed WiFi Included</span>
+                <span>✅</span> <span>High-Speed 1Gbps WiFi Included</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Coffee className="w-4 h-4 text-[#C5A059]" />
-                <span>Clean Shared Kitchen</span>
+                <span>✅</span> <span>Clean & Sanitized Kitchen</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Wind className="w-4 h-4 text-[#C5A059]" />
-                <span>24/7 Centralized AC</span>
+                <span>✅</span> <span>24/7 Centralized AC</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FDF8F3] border border-[#EFE6DF] text-xs font-semibold text-[#2A2421]">
-                <Users className="w-4 h-4 text-[#C5A059]" />
-                <span>Quiet & Respectful Flatmates</span>
+                <span>✅</span> <span>Peaceful & Respectful Flatmates</span>
               </div>
             </div>
           </div>
@@ -140,7 +133,7 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
           {/* Pricing Options Breakdown (Daily / Weekly / Monthly) */}
           <div className="space-y-3 pt-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#786C66]">
-              Rental Rate Options (All Rates in AED, INR & USD)
+              Rental Rate Options (All Inclusive Rates in AED, INR & USD)
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               
@@ -219,32 +212,47 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             </p>
           </div>
 
+          {/* Viewing Available Note */}
+          <div className="p-3.5 bg-[#FAF6F0] rounded-xl border border-[#EFE6DF] flex items-center justify-between text-xs text-[#2A2421]">
+            <div className="flex items-center gap-2 font-semibold">
+              <Eye className="w-4 h-4 text-[#C5A059]" />
+              <span>Viewing available 7 days a week (10:00 AM – 9:00 PM)</span>
+            </div>
+            <span className="text-[11px] font-bold text-[#278A45] bg-[#EBF7EE] px-2.5 py-0.5 rounded">
+              Instant Booking
+            </span>
+          </div>
+
         </div>
 
         {/* Bottom CTA Actions */}
         <div className="p-4 sm:p-6 bg-[#FDF8F3] border-t border-[#EFE6DF] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-left w-full sm:w-auto">
-            <span className="text-xs text-[#786C66] block">Starting Monthly Rent</span>
+            <span className="text-xs text-[#786C66] block">All-Inclusive Monthly Rent</span>
             <div className="text-xl font-extrabold text-[#2A2421]">
               {formatPrice(room.pricesAED.monthly)} <span className="text-xs font-normal text-[#786C66]">({monthlyPrices.INR} • {monthlyPrices.USD})</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <button
-              onClick={onClose}
-              className="px-5 py-3 rounded-xl border border-[#EFE6DF] bg-white hover:bg-[#F7EFEC] text-sm font-semibold text-[#786C66] transition-colors w-1/3 sm:w-auto"
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-bold shadow transition-all flex items-center justify-center gap-2"
             >
-              Close
-            </button>
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>WhatsApp Now (+971 50 706 1925)</span>
+            </a>
+            
             <button
               onClick={() => {
                 onClose();
                 onBookNow(room);
               }}
-              className="flex-1 sm:flex-none px-7 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
-              <span>Send Enquiry / Book Now</span>
+              <span>Send Enquiry</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

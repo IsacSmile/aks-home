@@ -3,7 +3,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { Building2, Globe, Shield, Menu, X, Home, Info, DoorOpen } from 'lucide-react';
 
 export function Navbar({ activePage, setActivePage, onOpenAdmin }) {
-  const { currency, setCurrency, EXCHANGE_RATES } = useState ? useCurrency() : {};
+  const { currency, setCurrency, EXCHANGE_RATES } = useCurrency();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
