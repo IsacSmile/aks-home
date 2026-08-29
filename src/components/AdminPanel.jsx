@@ -63,7 +63,7 @@ export function AdminPanel({
       monthlyPriceAED: 1300,
       weeklyPriceAED: 380,
       dailyPriceAED: 65,
-      imageUrl: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1000&q=80',
+      imageUrl: '/images/loft_partition.jpg',
       description: 'Clean private room partition located near metro exit with WiFi, AC, and regular cleaning.',
       featured: false
     });
@@ -100,23 +100,26 @@ export function AdminPanel({
       availabilityDate: formData.availabilityDate,
       isAvailable: true,
       featured: formData.featured,
+      managedBy: 'Managed by AKS',
+      allInclusive: true,
       pricesAED: {
         monthly: Number(formData.monthlyPriceAED),
         weekly: Number(formData.weeklyPriceAED),
         daily: Number(formData.dailyPriceAED)
       },
       images: [
-        formData.imageUrl || 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1000&q=80'
+        formData.imageUrl || '/images/loft_partition.jpg'
       ],
       amenities: [
         formData.type,
         formData.metroDistance,
+        'Available Now',
         'No Deposit',
         'No Commission',
         'WiFi Included',
-        'AC Available',
         'Clean Kitchen',
-        'Peaceful Flatmates'
+        'AC Available',
+        'Peaceful & Respectful Flatmates'
       ],
       description: formData.description
     };
@@ -133,7 +136,7 @@ export function AdminPanel({
       >
         
         {/* Header Bar */}
-        <div className="px-6 py-4 border-b border-[#EFE6DF] flex items-center justify-between bg-[#1E1B18] text-white">
+        <div className="px-6 py-4 border-b border-[#EFE6DF] flex items-center justify-between bg-[#1E1B18] text-white shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-[#C5A059] flex items-center justify-center text-white">
               <Shield className="w-5 h-5" />
@@ -205,7 +208,7 @@ export function AdminPanel({
           <div className="flex-1 flex flex-col overflow-hidden">
             
             {/* Navigation Tabs */}
-            <div className="px-6 pt-4 border-b border-[#EFE6DF] bg-[#FDF8F3] flex items-center justify-between">
+            <div className="px-6 pt-4 border-b border-[#EFE6DF] bg-[#FDF8F3] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveTab('rooms')}
@@ -390,12 +393,13 @@ export function AdminPanel({
           </div>
         )}
 
-        {/* ADD / EDIT ROOM MODAL SUB-CONTAINER */}
+        {/* ADD / EDIT ROOM MODAL SUB-CONTAINER - FIXED FOOTER BUTTONS */}
         {isFormOpen && (
-          <div className="fixed inset-0 z-60 modal-overlay flex items-center justify-center p-3 sm:p-6 animate-fade-in">
-            <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-[#EFE6DF] overflow-hidden my-auto max-h-[90vh] flex flex-col">
+          <div className="fixed inset-0 z-[60] modal-overlay flex items-center justify-center p-3 sm:p-6 animate-fade-in">
+            <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-[#EFE6DF] overflow-hidden my-auto max-h-[85vh] flex flex-col">
               
-              <div className="px-6 py-4 border-b border-[#EFE6DF] flex items-center justify-between bg-[#FDF8F3]">
+              {/* Fixed Header */}
+              <div className="px-6 py-4 border-b border-[#EFE6DF] flex items-center justify-between bg-[#FDF8F3] shrink-0">
                 <h4 className="font-bold text-base text-[#2A2421]">
                   {editingRoom ? 'Edit Room Listing' : 'Add New Room Listing'}
                 </h4>
@@ -404,146 +408,151 @@ export function AdminPanel({
                 </button>
               </div>
 
-              <form onSubmit={handleSubmitRoom} className="p-6 overflow-y-auto space-y-4 text-left">
+              {/* Form Element wrapping scrollable content and fixed bottom footer */}
+              <form onSubmit={handleSubmitRoom} className="flex-1 flex flex-col overflow-hidden">
                 
-                <div>
-                  <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Title *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="e.g. Loft Partition with Window – Baniyas Square"
-                    className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
+                {/* Scrollable Form Body */}
+                <div className="p-6 overflow-y-auto flex-1 space-y-4 text-left">
                   <div>
-                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Location *</label>
+                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Title *</label>
                     <input
                       type="text"
                       required
-                      value={formData.location}
-                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      placeholder="e.g. Al Maktoum Street, Deira"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="e.g. Loft Partition with Window – Baniyas Square"
                       className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
                     />
                   </div>
 
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-semibold text-[#786C66] block mb-1">Location *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                        placeholder="e.g. Al Maktoum Street, Deira"
+                        className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-semibold text-[#786C66] block mb-1">Metro Proximity *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.metroDistance}
+                        onChange={(e) => setFormData({ ...formData, metroDistance: e.target.value })}
+                        placeholder="e.g. 2 mins walk (Exit 1)"
+                        className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Type</label>
+                      <select
+                        value={formData.type}
+                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
+                      >
+                        <option value="Loft Partition">Loft Partition</option>
+                        <option value="Upper Partition">Upper Partition</option>
+                        <option value="Lower Partition">Lower Partition</option>
+                        <option value="Capsule Bed">Capsule Bed</option>
+                        <option value="Studio Partition">Studio Partition</option>
+                        <option value="Window Partition">Window Partition</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-semibold text-[#786C66] block mb-1">Availability Status</label>
+                      <input
+                        type="text"
+                        value={formData.availabilityDate}
+                        onChange={(e) => setFormData({ ...formData, availabilityDate: e.target.value })}
+                        placeholder="e.g. Available Now / Available 1st Sept"
+                        className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Base Prices in AED */}
+                  <div className="p-3.5 bg-[#FDF8F3] rounded-xl border border-[#EFE6DF] space-y-2">
+                    <span className="text-xs font-bold uppercase text-[#C5A059] block">
+                      Set Rental Rates (Base AED)
+                    </span>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div>
+                        <label className="text-[11px] font-medium text-[#786C66] block">Monthly (AED)</label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.monthlyPriceAED}
+                          onChange={(e) => setFormData({ ...formData, monthlyPriceAED: e.target.value })}
+                          className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-medium text-[#786C66] block">Weekly (AED)</label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.weeklyPriceAED}
+                          onChange={(e) => setFormData({ ...formData, weeklyPriceAED: e.target.value })}
+                          className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-medium text-[#786C66] block">Daily (AED)</label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.dailyPriceAED}
+                          onChange={(e) => setFormData({ ...formData, dailyPriceAED: e.target.value })}
+                          className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Metro Proximity *</label>
+                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Image URL</label>
                     <input
                       type="text"
-                      required
-                      value={formData.metroDistance}
-                      onChange={(e) => setFormData({ ...formData, metroDistance: e.target.value })}
-                      placeholder="e.g. 2 mins walk (Exit 1)"
+                      value={formData.imageUrl}
+                      onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                      placeholder="e.g. /images/loft_partition.jpg or https://..."
                       className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
                     />
                   </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Type</label>
-                    <select
-                      value={formData.type}
-                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
-                    >
-                      <option value="Loft Partition">Loft Partition</option>
-                      <option value="Upper Partition">Upper Partition</option>
-                      <option value="Lower Partition">Lower Partition</option>
-                      <option value="Capsule Bed">Capsule Bed</option>
-                      <option value="Studio Partition">Studio Partition</option>
-                      <option value="Window Partition">Window Partition</option>
-                    </select>
-                  </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Availability Status</label>
-                    <input
-                      type="text"
-                      value={formData.availabilityDate}
-                      onChange={(e) => setFormData({ ...formData, availabilityDate: e.target.value })}
-                      placeholder="e.g. Available Now / Available 1st Sept"
-                      className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
-                    />
+                    <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Description</label>
+                    <textarea
+                      rows="3"
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] resize-none"
+                    ></textarea>
                   </div>
                 </div>
 
-                {/* Base Prices in AED */}
-                <div className="p-3 bg-[#FDF8F3] rounded-xl border border-[#EFE6DF] space-y-2">
-                  <span className="text-xs font-bold uppercase text-[#C5A059] block">
-                    Set Rental Rates (Base AED)
-                  </span>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="text-[11px] font-medium text-[#786C66] block">Monthly (AED)</label>
-                      <input
-                        type="number"
-                        required
-                        value={formData.monthlyPriceAED}
-                        onChange={(e) => setFormData({ ...formData, monthlyPriceAED: e.target.value })}
-                        className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[11px] font-medium text-[#786C66] block">Weekly (AED)</label>
-                      <input
-                        type="number"
-                        required
-                        value={formData.weeklyPriceAED}
-                        onChange={(e) => setFormData({ ...formData, weeklyPriceAED: e.target.value })}
-                        className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[11px] font-medium text-[#786C66] block">Daily (AED)</label>
-                      <input
-                        type="number"
-                        required
-                        value={formData.dailyPriceAED}
-                        onChange={(e) => setFormData({ ...formData, dailyPriceAED: e.target.value })}
-                        className="w-full px-2.5 py-1.5 bg-white border border-[#EFE6DF] rounded-lg text-sm text-[#2A2421]"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-[#786C66] block mb-1">Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    placeholder="https://..."
-                    className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-[#786C66] block mb-1">Room Description</label>
-                  <textarea
-                    rows="3"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] resize-none"
-                  ></textarea>
-                </div>
-
-                <div className="pt-2 flex justify-end gap-3">
+                {/* Always Visible Fixed Bottom Action Footer */}
+                <div className="p-4 border-t border-[#EFE6DF] bg-[#FDF8F3] flex items-center justify-end gap-3 shrink-0">
                   <button
                     type="button"
                     onClick={() => setIsFormOpen(false)}
-                    className="px-4 py-2 text-xs font-semibold text-[#786C66]"
+                    className="px-4 py-2 rounded-xl border border-[#EFE6DF] bg-white text-xs font-semibold text-[#786C66] hover:bg-[#FAF6F0] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl bg-[#C5A059] text-white text-xs font-bold"
+                    className="px-5 py-2 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all"
                   >
                     Save Room Listing
                   </button>
