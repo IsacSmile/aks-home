@@ -1,38 +1,110 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCurrency } from '../context/CurrencyContext';
-import { MapPin, Train, ArrowRight, ShieldCheck, BadgeCheck, Users, Zap, Calendar } from 'lucide-react';
+import { MapPin, Train, ArrowRight, ShieldCheck, BadgeCheck, Users, Zap, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function RoomCard({ room, onSelectRoom, onQuickBook }) {
   const { formatPrice, currency, getMultiCurrencyPrices } = useCurrency();
   const prices = getMultiCurrencyPrices(room.pricesAED.monthly);
 
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const images = room.images && room.images.length > 0 ? room.images : ['/images/loft_partition.jpg'];
+
+  const nextImage = (e) => {
+    if (e) e.stopPropagation();
+    setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = (e) => {
+    if (e) e.stopPropagation();
+    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  // Touch Swipe Handlers for Mobile
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 35;
+    if (distance > minSwipeDistance) {
+      nextImage(e);
+    } else if (distance < -minSwipeDistance) {
+      prevImage(e);
+    }
+  };
+
   return (
     <div className="group bg-white rounded-2xl border border-[#EFE6DF] overflow-hidden shadow-xs hover:shadow-md hover:border-[#C5A059]/50 transition-all duration-300 flex flex-col h-full animate-fade-in relative">
       
-      {/* Room Photo Gallery Container */}
-      <div className="relative aspect-[4/3] bg-[#FAF6F0] overflow-hidden cursor-pointer" onClick={() => onSelectRoom(room)}>
+      {/* Room Photo Gallery Container with Touch Swipe & Arrow Controls */}
+      <div 
+        className="relative aspect-[4/3] bg-[#FAF6F0] overflow-hidden cursor-pointer select-none"
+        onClick={() => onSelectRoom(room)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <img
-          src={room.images[0]}
+          src={images[activeImageIndex]}
           alt={room.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
 
-        {/* Top Badges Overlay - Compact Mobile Padding */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none gap-1.5">
-          {/* Verified Listing Badge */}
+        {/* Left & Right Arrows for Photo Gallery (Shown if > 1 Image) */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={prevImage}
+              aria-label="Previous photo"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md border border-white/60 transition-transform active:scale-95"
+            >
+              <ChevronLeft className="w-4 h-4 text-[#2A2421]" />
+            </button>
+            <button
+              onClick={nextImage}
+              aria-label="Next photo"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md border border-white/60 transition-transform active:scale-95"
+            >
+              <ChevronRight className="w-4 h-4 text-[#2A2421]" />
+            </button>
+
+            {/* Pagination Dots Pill */}
+            <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-white/20">
+              {images.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all ${
+                    idx === activeImageIndex ? 'w-3.5 bg-[#C5A059]' : 'w-1.5 bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Top Badges Overlay */}
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 pointer-events-none z-10">
           <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#EBF7EE] text-[#278A45] border border-[#278A45]/30 flex items-center gap-1 shadow-xs">
             <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Verified
           </span>
-
-          {/* Managed By Label */}
           <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#1E1B18]/85 text-white backdrop-blur-md shadow-xs">
             {room.managedBy || 'Managed by AKS'}
           </span>
         </div>
 
-        {/* Bottom Metro Walking Distance Badge - Compact */}
-        <div className="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none">
+        {/* Bottom Metro Walking Distance Badge */}
+        <div className="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none z-10">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white/95 text-[#2A2421] text-[11px] sm:text-xs font-extrabold backdrop-blur-md shadow-xs border border-white/70">
             <Train className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
             <span className="truncate">{room.metroDistance}</span>
@@ -40,7 +112,7 @@ export function RoomCard({ room, onSelectRoom, onQuickBook }) {
         </div>
       </div>
 
-      {/* Card Content Body - Reduced Mobile Padding & Compact Spacing */}
+      {/* Card Content Body */}
       <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
         
         <div className="space-y-1.5">
@@ -55,7 +127,7 @@ export function RoomCard({ room, onSelectRoom, onQuickBook }) {
             </span>
           </div>
 
-          {/* Title - Optimized Font Size & Line Height for Mobile */}
+          {/* Title */}
           <h3 
             onClick={() => onSelectRoom(room)}
             className="text-base sm:text-lg font-bold text-[#2A2421] leading-snug group-hover:text-[#C5A059] transition-colors cursor-pointer line-clamp-2 mt-1"

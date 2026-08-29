@@ -33,6 +33,10 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
   const { formatPrice } = useCurrency();
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Mobile Touch Swipe State
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
   const roomTypes = ['All', 'Loft Partition', 'Upper Partition', 'Lower Partition', 'Capsule Bed', 'Studio Partition', 'Window Partition'];
 
   // Auto-slide every 3 seconds
@@ -56,6 +60,27 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  // Touch Swipe Handlers for Mobile
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 40;
+    if (distance > minSwipeDistance) {
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevSlide();
+    }
   };
 
   return (
@@ -124,9 +149,14 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
 
           </div>
 
-          {/* RIGHT SIDE: Large Image Carousel Card */}
+          {/* RIGHT SIDE: Large Image Carousel Card with Touch & Arrow Navigation */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#EFE6DF] bg-[#FAF6F0] aspect-[4/3] sm:aspect-[4/3] group">
+            <div 
+              className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#EFE6DF] bg-[#FAF6F0] aspect-[4/3] sm:aspect-[4/3] group select-none cursor-grab active:cursor-grabbing"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               
               {/* Slides */}
               {heroSlides.map((slide, index) => (
@@ -139,30 +169,32 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
                   <img
                     src={slide.url}
                     alt={slide.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover pointer-events-none"
                   />
                   {/* Subtle Dark Bottom Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
                 </div>
               ))}
 
-              {/* Prev / Next Controls */}
+              {/* Visible Left & Right Navigation Arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+                aria-label="Previous slide"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg transition-transform active:scale-95 border border-white/70"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5 text-[#2A2421]" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+                aria-label="Next slide"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg transition-transform active:scale-95 border border-white/70"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5 text-[#2A2421]" />
               </button>
 
               {/* Bottom Caption Overlay Pill */}
-              <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between gap-2">
-                <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-sm text-left max-w-[80%] border border-white/40">
+              <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between gap-2 pointer-events-none">
+                <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-sm text-left max-w-[75%] border border-white/40">
                   <span className="text-[10px] font-extrabold uppercase text-[#C5A059] block tracking-wider">
                     {heroSlides[currentSlide].title}
                   </span>
@@ -172,7 +204,7 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
                 </div>
 
                 {/* Carousel Pagination Dots */}
-                <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-2 rounded-full border border-white/20">
+                <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-2 rounded-full border border-white/20 pointer-events-auto">
                   {heroSlides.map((_, i) => (
                     <button
                       key={i}

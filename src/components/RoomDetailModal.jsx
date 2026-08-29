@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCurrency } from '../context/CurrencyContext';
 import { 
   X, MapPin, Calendar, CheckCircle2, ShieldCheck, 
-  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, MessageCircle, Eye, BadgeCheck
+  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, MessageCircle, Eye, BadgeCheck, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 export function RoomDetailModal({ room, onClose, onBookNow }) {
@@ -11,12 +11,47 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
   const { formatPrice, currency, getMultiCurrencyPrices } = useCurrency();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
+  // Mobile Touch Swipe State
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const images = room.images && room.images.length > 0 ? room.images : ['/images/loft_partition.jpg'];
+
   const monthlyPrices = getMultiCurrencyPrices(room.pricesAED.monthly);
   const weeklyPrices = getMultiCurrencyPrices(room.pricesAED.weekly);
   const dailyPrices = getMultiCurrencyPrices(room.pricesAED.daily);
 
   const whatsappMessage = `Hi AKS Home, I'm interested in viewing: ${room.title} (${room.location}). Please share viewing availability.`;
   const whatsappUrl = `https://wa.me/971507061925?text=${encodeURIComponent(whatsappMessage)}`;
+
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  // Touch Swipe Handlers for Mobile
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 40;
+    if (distance > minSwipeDistance) {
+      nextImage();
+    } else if (distance < -minSwipeDistance) {
+      prevImage();
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto modal-overlay flex items-center justify-center p-3 sm:p-6 animate-fade-in">
@@ -47,15 +82,40 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
         {/* Modal Content Body - Scrollable */}
         <div className="p-5 sm:p-8 overflow-y-auto space-y-8">
           
-          {/* Main Photo Gallery */}
+          {/* Main Photo Gallery with Touch Swipe & Arrows */}
           <div className="space-y-3">
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-[#FAF6F0] border border-[#EFE6DF]">
+            <div 
+              className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-[#FAF6F0] border border-[#EFE6DF] select-none"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <img
-                src={room.images[activeImageIndex] || room.images[0]}
+                src={images[activeImageIndex] || images[0]}
                 alt={room.title}
-                className="w-full h-full object-cover transition-all duration-300"
+                className="w-full h-full object-cover transition-all duration-300 pointer-events-none"
               />
               
+              {/* Photo Navigation Arrows */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={prevImage}
+                    aria-label="Previous photo"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg border border-white/70 transition-transform active:scale-95"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-[#2A2421]" />
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    aria-label="Next photo"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg border border-white/70 transition-transform active:scale-95"
+                  >
+                    <ChevronRight className="w-5 h-5 text-[#2A2421]" />
+                  </button>
+                </>
+              )}
+
               {/* Metro Distance Badge */}
               <div className="absolute bottom-3 left-3 bg-[#1E1B18]/85 text-white px-3.5 py-1.5 rounded-full text-xs font-bold backdrop-blur-md flex items-center gap-1.5 shadow-xs">
                 <Train className="w-4 h-4 text-[#C5A059]" />
@@ -64,9 +124,9 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             </div>
 
             {/* Thumbnail Selector */}
-            {room.images.length > 1 && (
+            {images.length > 1 && (
               <div className="flex items-center gap-3">
-                {room.images.map((imgUrl, idx) => (
+                {images.map((imgUrl, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
@@ -94,7 +154,7 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             </p>
           </div>
 
-          {/* Exact Amenity Badges Checklist Requested */}
+          {/* Key Amenities Checklist */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#786C66]">
               Key Amenities & Features
