@@ -265,9 +265,10 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Filter controls */}
-              <div className="max-w-4xl mx-auto bg-white p-4 rounded-2xl border border-[#EFE6DF] shadow-xs">
+              {/* Filter Controls Bar (Clean Standalone Search without Hero Banner) */}
+              <div className="max-w-4xl mx-auto">
                 <Hero
+                  compactMode={true}
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
                   selectedType={selectedType}
