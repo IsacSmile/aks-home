@@ -38,7 +38,6 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Check if saved rooms contain old stock image URLs (e.g., Unsplash URLs or old structure)
         const hasOldImages = parsed.some(
           (r) => r.images && r.images[0] && (r.images[0].includes('unsplash.com') || r.images[0].includes('pink_partition'))
         );
@@ -133,27 +132,33 @@ export default function App() {
 
   // Handler for New Enquiry Submission
   const handleSubmitEnquiry = (enquiryPayload) => {
-    console.log('New Enquiry Received:', enquiryPayload);
-    setEnquiries((prev) => [enquiryPayload, ...prev]);
+    const fullPayload = {
+      ...enquiryPayload,
+      status: 'Pending'
+    };
+    console.log('New Enquiry Received:', fullPayload);
+    setEnquiries((prev) => [fullPayload, ...prev]);
   };
 
   const handleDeleteEnquiry = (enquiryId) => {
     setEnquiries((prev) => prev.filter((e) => e.id !== enquiryId));
   };
 
+  const handleUpdateEnquiryStatus = (enquiryId, newStatus) => {
+    setEnquiries((prev) =>
+      prev.map((e) => (e.id === enquiryId ? { ...e, status: newStatus } : e))
+    );
+  };
+
   // Filtered Rooms List
   const filteredRooms = rooms.filter((room) => {
-    // 1. Text Search (title, location, metro distance)
     const matchesSearch =
       !searchQuery ||
       room.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       room.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       room.metroDistance.toLowerCase().includes(searchQuery.toLowerCase());
 
-    // 2. Room Type
     const matchesType = selectedType === 'All' || room.type === selectedType;
-
-    // 3. Max Budget (Monthly AED)
     const matchesBudget = !maxBudget || room.pricesAED.monthly <= maxBudget;
 
     return matchesSearch && matchesType && matchesBudget;
@@ -300,6 +305,7 @@ export default function App() {
                 onDeleteRoom={handleDeleteRoom}
                 enquiries={enquiries}
                 onDeleteEnquiry={handleDeleteEnquiry}
+                onUpdateEnquiryStatus={handleUpdateEnquiryStatus}
                 onResetSeed={handleResetSeed}
                 onClose={() => setActivePage('home')}
               />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Shield, KeyRound, Plus, Edit2, Trash2, CheckCircle2, 
-  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft, Train, MapPin
+  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft, Train, MapPin, Check, XCircle, Clock
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -11,6 +11,7 @@ export function AdminPanel({
   onDeleteRoom, 
   enquiries, 
   onDeleteEnquiry, 
+  onUpdateEnquiryStatus,
   onResetSeed, 
   onClose 
 }) {
@@ -209,7 +210,7 @@ export function AdminPanel({
         /* Authenticated Full-Width Dashboard */
         <div className="flex-1 flex flex-col overflow-hidden">
           
-          {/* Navigation Tabs - High-Visibility Visible Buttons */}
+          {/* Navigation Tabs */}
           <div className="px-4 sm:px-6 pt-4 pb-3 border-b border-[#EFE6DF] bg-[#FDF8F3] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
             
             {/* Pill Tab Switcher */}
@@ -251,7 +252,7 @@ export function AdminPanel({
             </div>
           </div>
 
-          {/* Main Content Area - Full Width */}
+          {/* Main Content Area */}
           <div className="p-3.5 sm:p-8 overflow-y-auto flex-1 space-y-5 sm:space-y-6">
             
             {/* TAB 1: ROOMS MANAGEMENT */}
@@ -272,28 +273,20 @@ export function AdminPanel({
                   </button>
                 </div>
 
-                {/* Rooms Grid - Smooth, High Visibility Mobile Cards */}
+                {/* Rooms Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {rooms.map((rm) => (
                     <div 
                       key={rm.id} 
                       className="p-3.5 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 shadow-xs hover:border-[#C5A059]/50 hover:shadow-md transition-all"
                     >
-                      
-                      {/* Left & Middle Info Section */}
                       <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1 w-full">
-                        
-                        {/* Compact Thumbnail Image */}
                         <img
                           src={rm.images[0]}
                           alt={rm.title}
                           className="w-20 h-20 sm:w-28 sm:h-28 rounded-xl sm:rounded-2xl object-cover border border-[#EFE6DF] shrink-0 shadow-2xs"
                         />
-
-                        {/* Room Details Column */}
                         <div className="min-w-0 flex-1 space-y-1 text-left">
-                          
-                          {/* Type & Metro Badges */}
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-[#C5A059] bg-[#FBF4E6] px-2.5 py-0.5 rounded-md border border-[#C5A059]/30">
                               {rm.type}
@@ -305,30 +298,22 @@ export function AdminPanel({
                               </span>
                             )}
                           </div>
-
-                          {/* Full Title */}
                           <h5 className="font-extrabold text-sm sm:text-base text-[#2A2421] leading-snug line-clamp-2 mt-0.5">
                             {rm.title}
                           </h5>
-
-                          {/* Location */}
                           <p className="text-[11px] sm:text-xs text-[#786C66] flex items-center gap-1 font-medium">
                             <MapPin className="w-3.5 h-3.5 text-[#A39690] shrink-0" />
                             <span className="truncate">{rm.location}</span>
                           </p>
-
-                          {/* Price */}
                           <div className="pt-0.5">
                             <span className="text-sm sm:text-base font-extrabold text-[#2A2421]">
                               {formatPrice(rm.pricesAED.monthly)}
                             </span>
                             <span className="text-[11px] sm:text-xs text-[#786C66] font-medium ml-1">/ month</span>
                           </div>
-
                         </div>
                       </div>
 
-                      {/* Right Action Buttons Column - High-Contrast Visible Buttons */}
                       <div className="flex flex-row sm:flex-col items-center justify-end gap-2 w-full sm:w-auto border-t sm:border-t-0 pt-2.5 sm:pt-0 border-[#EFE6DF] shrink-0">
                         <button
                           onClick={() => openEditModal(rm)}
@@ -375,59 +360,136 @@ export function AdminPanel({
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {enquiries.map((enq) => (
-                      <div key={enq.id} className="p-4 sm:p-6 rounded-2xl border border-[#EFE6DF] bg-white space-y-3 sm:space-y-4 shadow-2xs hover:border-[#C5A059]/40 transition-all">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#EFE6DF]">
-                          <div>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#C5A059] px-2.5 py-0.5 rounded-full">
-                              {enq.duration} Stay
-                            </span>
-                            <h5 className="font-bold text-base sm:text-lg text-[#2A2421] mt-1">{enq.name}</h5>
-                          </div>
-                          <div className="text-left sm:text-right">
-                            <span className="text-xs text-[#786C66] block">{enq.submittedAt}</span>
-                            <span className="text-xs font-bold text-[#278A45] bg-[#EBF7EE] px-2.5 py-0.5 rounded-md inline-block mt-0.5">
-                              Move-in: {enq.moveInDate || 'Immediate'}
-                            </span>
-                          </div>
-                        </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                    {enquiries.map((enq) => {
+                      const currentStatus = enq.status || 'Pending';
+                      return (
+                        <div key={enq.id} className="p-4 sm:p-6 rounded-2xl border border-[#EFE6DF] bg-white space-y-4 shadow-xs hover:border-[#C5A059]/40 transition-all">
+                          
+                          {/* Card Top Row: Name, Stay Duration, & Status Badge */}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EFE6DF]">
+                            <div>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[10px] font-extrabold uppercase tracking-wider text-white bg-[#C5A059] px-2.5 py-0.5 rounded-full">
+                                  {enq.duration} Stay
+                                </span>
+                                
+                                {/* Highlighted Active Status Pill */}
+                                {currentStatus === 'Booked' && (
+                                  <span className="text-[11px] font-extrabold text-[#1E7E34] bg-[#EBF7EE] border border-[#1E7E34]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1E7E34]" /> Booked
+                                  </span>
+                                )}
+                                {currentStatus === 'Contacted' && (
+                                  <span className="text-[11px] font-extrabold text-[#0066CC] bg-[#E6F2FF] border border-[#0066CC]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
+                                    <Phone className="w-3.5 h-3.5 text-[#0066CC]" /> Contacted
+                                  </span>
+                                )}
+                                {currentStatus === 'Cancelled' && (
+                                  <span className="text-[11px] font-extrabold text-[#D93025] bg-[#FCE8E6] border border-[#D93025]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
+                                    <XCircle className="w-3.5 h-3.5 text-[#D93025]" /> Cancelled
+                                  </span>
+                                )}
+                                {(currentStatus === 'Pending' || currentStatus === 'New') && (
+                                  <span className="text-[11px] font-extrabold text-[#B56A00] bg-[#FFF8E6] border border-[#B56A00]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
+                                    <Clock className="w-3.5 h-3.5 text-[#B56A00]" /> New Lead
+                                  </span>
+                                )}
+                              </div>
+                              
+                              <h5 className="font-extrabold text-base sm:text-lg text-[#2A2421] mt-1.5">{enq.name}</h5>
+                            </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-[#786C66]">
-                          <div className="flex items-center gap-2">
-                            <Building2 className="w-4 h-4 text-[#C5A059] shrink-0" />
-                            <span className="truncate font-medium text-[#2A2421]">{enq.roomTitle}</span>
+                            <div className="text-left sm:text-right">
+                              <span className="text-xs text-[#786C66] block">{enq.submittedAt}</span>
+                              <span className="text-xs font-bold text-[#278A45] bg-[#EBF7EE] px-2.5 py-0.5 rounded-md inline-block mt-0.5">
+                                Move-in: {enq.moveInDate || 'Immediate'}
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <Phone className="w-4 h-4 text-[#C5A059] shrink-0" />
-                            <a href={`https://wa.me/${enq.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="text-[#C5A059] font-bold hover:underline">
-                              {enq.phone}
-                            </a>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-[#C5A059] shrink-0" />
-                            <span className="truncate">{enq.email}</span>
-                          </div>
-                        </div>
 
-                        {enq.message && (
-                          <div className="p-3 bg-[#FDF8F3] rounded-xl text-xs text-[#2A2421] border border-[#EFE6DF]">
-                            <span className="font-bold text-[#786C66] block mb-1 uppercase text-[10px]">Customer Note:</span>
-                            "{enq.message}"
+                          {/* Contact Details Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-[#786C66]">
+                            <div className="flex items-center gap-2">
+                              <Building2 className="w-4 h-4 text-[#C5A059] shrink-0" />
+                              <span className="truncate font-medium text-[#2A2421]">{enq.roomTitle}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Phone className="w-4 h-4 text-[#C5A059] shrink-0" />
+                              <a href={`https://wa.me/${enq.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="text-[#C5A059] font-bold hover:underline">
+                                {enq.phone}
+                              </a>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Mail className="w-4 h-4 text-[#C5A059] shrink-0" />
+                              <span className="truncate">{enq.email}</span>
+                            </div>
                           </div>
-                        )}
 
-                        <div className="pt-1 flex justify-end">
-                          <button
-                            onClick={() => onDeleteEnquiry(enq.id)}
-                            className="text-xs text-red-600 hover:text-red-800 font-semibold flex items-center gap-1.5 transition-colors"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                            <span>Delete Record</span>
-                          </button>
+                          {/* Customer Note */}
+                          {enq.message && (
+                            <div className="p-3 bg-[#FDF8F3] rounded-xl text-xs text-[#2A2421] border border-[#EFE6DF]">
+                              <span className="font-bold text-[#786C66] block mb-1 uppercase text-[10px]">Customer Note:</span>
+                              "{enq.message}"
+                            </div>
+                          )}
+
+                          {/* Interactive Status Switcher & Delete Record */}
+                          <div className="pt-2 border-t border-[#EFE6DF] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                            
+                            {/* Interactive Status Badges Selection Bar */}
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-[10px] font-extrabold text-[#786C66] uppercase tracking-wider mr-1">
+                                Update Status:
+                              </span>
+                              
+                              <button
+                                onClick={() => onUpdateEnquiryStatus && onUpdateEnquiryStatus(enq.id, 'Contacted')}
+                                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border flex items-center gap-1 ${
+                                  currentStatus === 'Contacted'
+                                    ? 'bg-[#0066CC] text-white border-[#0066CC] shadow-xs'
+                                    : 'bg-[#E6F2FF] text-[#0066CC] border-[#0066CC]/30 hover:bg-[#0066CC] hover:text-white'
+                                }`}
+                              >
+                                <span>Contacted</span>
+                              </button>
+
+                              <button
+                                onClick={() => onUpdateEnquiryStatus && onUpdateEnquiryStatus(enq.id, 'Booked')}
+                                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border flex items-center gap-1 ${
+                                  currentStatus === 'Booked'
+                                    ? 'bg-[#1E7E34] text-white border-[#1E7E34] shadow-xs'
+                                    : 'bg-[#EBF7EE] text-[#1E7E34] border-[#1E7E34]/30 hover:bg-[#1E7E34] hover:text-white'
+                                }`}
+                              >
+                                <span>Booked</span>
+                              </button>
+
+                              <button
+                                onClick={() => onUpdateEnquiryStatus && onUpdateEnquiryStatus(enq.id, 'Cancelled')}
+                                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border flex items-center gap-1 ${
+                                  currentStatus === 'Cancelled'
+                                    ? 'bg-[#D93025] text-white border-[#D93025] shadow-xs'
+                                    : 'bg-[#FCE8E6] text-[#D93025] border-[#D93025]/30 hover:bg-[#D93025] hover:text-white'
+                                }`}
+                              >
+                                <span>Cancelled</span>
+                              </button>
+                            </div>
+
+                            {/* Delete Record */}
+                            <button
+                              onClick={() => onDeleteEnquiry(enq.id)}
+                              className="text-xs text-red-600 hover:text-red-800 font-bold flex items-center gap-1 transition-colors self-end sm:self-auto"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              <span>Delete Record</span>
+                            </button>
+                          </div>
+
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
