@@ -225,9 +225,9 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
             </div>
 
             {/* 2. Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold text-[#2A2421] leading-[1.15] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold text-[#2A2421] leading-tight sm:leading-[1.18] tracking-tight">
               Affordable Private Rooms in Dubai{' '}
-              <span className="block text-[#C5A059] font-extrabold mt-1">
+              <span className="inline-block bg-gradient-to-r from-[#B88E3D] via-[#C5A059] to-[#8C6621] bg-clip-text text-transparent font-extrabold">
                 for Working Professionals
               </span>
             </h1>
