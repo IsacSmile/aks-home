@@ -189,6 +189,8 @@ export default function App() {
                 setSelectedType={setSelectedType}
                 maxBudget={maxBudget}
                 setMaxBudget={setMaxBudget}
+                onSelectRoom={(r) => setSelectedDetailRoom(r)}
+                rooms={rooms}
               />
 
               {/* Rooms Grid Section */}

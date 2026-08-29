@@ -2,26 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { Search, MapPin, CheckCircle2, Train, Zap, ArrowRight, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, RotateCcw, Sparkles } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
+import { initialRooms } from '../data/initialRooms';
+
 const heroSlides = [
   {
+    roomId: 'room-1',
     url: '/images/loft_partition.jpg',
     title: 'Loft Partition with Window',
     location: 'Baniyas Square Metro Exit 1',
     price: '1,350 AED/mo'
   },
   {
+    roomId: 'room-3',
     url: '/images/blue_partition.jpg',
     title: 'Compact Lower Partition',
     location: 'Al Rigga Metro Exit 2',
     price: '1,150 AED/mo'
   },
   {
+    roomId: 'room-2',
     url: '/images/compact_bed.jpg',
     title: 'Executive Upper Partition',
     location: 'Al Maktoum St (Clock Tower)',
     price: '1,550 AED/mo'
   },
   {
+    roomId: 'room-4',
     url: '/images/capsule_pod.jpg',
     title: 'Japanese Capsule Bed',
     location: 'Gold Souk Metro Station',
@@ -29,9 +35,17 @@ const heroSlides = [
   }
 ];
 
-export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedType, maxBudget, setMaxBudget, compactMode = false }) {
+export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedType, maxBudget, setMaxBudget, compactMode = false, onSelectRoom, rooms = [] }) {
   const { formatPrice } = useCurrency();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const handleSlideClick = (slide) => {
+    if (onSelectRoom) {
+      const pool = rooms && rooms.length > 0 ? rooms : initialRooms;
+      const foundRoom = pool.find((r) => r.id === slide.roomId) || pool[0];
+      onSelectRoom(foundRoom);
+    }
+  };
 
   // Mobile Touch Swipe State
   const [touchStart, setTouchStart] = useState(null);
@@ -274,7 +288,8 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
           {/* RIGHT SIDE: Large Image Carousel Card with Touch & Arrow Navigation */}
           <div className="lg:col-span-5">
             <div 
-              className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#EFE6DF] bg-[#FAF6F0] aspect-[4/3] sm:aspect-[4/3] group select-none cursor-grab active:cursor-grabbing"
+              className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#EFE6DF] bg-[#FAF6F0] aspect-[4/3] sm:aspect-[4/3] group select-none cursor-pointer"
+              onClick={() => handleSlideClick(heroSlides[currentSlide])}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -291,23 +306,29 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
                   <img
                     src={slide.url}
                     alt={slide.title}
-                    className="w-full h-full object-cover pointer-events-none"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                   />
                   {/* Subtle Dark Bottom Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                 </div>
               ))}
 
               {/* Visible Left & Right Navigation Arrows */}
               <button
-                onClick={prevSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSlide();
+                }}
                 aria-label="Previous slide"
                 className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg transition-transform active:scale-95 border border-white/70"
               >
                 <ChevronLeft className="w-5 h-5 text-[#2A2421]" />
               </button>
               <button
-                onClick={nextSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide();
+                }}
                 aria-label="Next slide"
                 className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#2A2421] flex items-center justify-center shadow-lg transition-transform active:scale-95 border border-white/70"
               >
@@ -316,13 +337,24 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
 
               {/* Bottom Caption Overlay Pill */}
               <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between gap-2 pointer-events-none">
-                <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-sm text-left max-w-[75%] border border-white/40">
-                  <span className="text-[10px] font-extrabold uppercase text-[#C5A059] block tracking-wider">
-                    {heroSlides[currentSlide].title}
+                <div 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSlideClick(heroSlides[currentSlide]);
+                  }}
+                  className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md text-left max-w-[78%] border border-white/40 pointer-events-auto cursor-pointer hover:bg-white transition-all flex items-center justify-between gap-2 group/caption"
+                >
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10px] font-extrabold uppercase text-[#C5A059] block tracking-wider truncate">
+                      {heroSlides[currentSlide].title}
+                    </span>
+                    <p className="text-xs font-bold text-[#2A2421] truncate mt-0.5">
+                      {heroSlides[currentSlide].location}
+                    </p>
+                  </div>
+                  <span className="text-[10px] font-extrabold text-[#C5A059] bg-[#FBF4E6] px-2 py-1 rounded-lg border border-[#C5A059]/20 group-hover/caption:bg-[#C5A059] group-hover/caption:text-white transition-colors shrink-0">
+                    View ↗
                   </span>
-                  <p className="text-xs font-bold text-[#2A2421] truncate mt-0.5">
-                    {heroSlides[currentSlide].location}
-                  </p>
                 </div>
 
                 {/* Carousel Pagination Dots */}
@@ -330,7 +362,10 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
                   {heroSlides.map((_, i) => (
                     <button
                       key={i}
-                      onClick={() => setCurrentSlide(i)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentSlide(i);
+                      }}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         i === currentSlide ? 'w-5 bg-[#C5A059]' : 'w-2 bg-white/60 hover:bg-white'
                       }`}
