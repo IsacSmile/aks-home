@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCurrency } from '../context/CurrencyContext';
 import { 
   X, MapPin, Calendar, CheckCircle2, ShieldCheck, 
-  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, MessageCircle, Eye, BadgeCheck, ChevronLeft, ChevronRight
+  Sparkles, Train, Wifi, Coffee, Wind, Users, ArrowRight, MessageCircle, Eye, BadgeCheck, ChevronLeft, ChevronRight, Check
 } from 'lucide-react';
 
 export function RoomDetailModal({ room, onClose, onBookNow }) {
@@ -10,6 +10,7 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
 
   const { formatPrice, currency, getMultiCurrencyPrices } = useCurrency();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [selectedDuration, setSelectedDuration] = useState('Monthly'); // 'Monthly' | 'Weekly' | 'Daily'
 
   // Mobile Touch Swipe State
   const [touchStart, setTouchStart] = useState(null);
@@ -21,7 +22,19 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
   const weeklyPrices = getMultiCurrencyPrices(room.pricesAED.weekly);
   const dailyPrices = getMultiCurrencyPrices(room.pricesAED.daily);
 
-  const whatsappMessage = `Hi AKS Home, I'm interested in viewing: ${room.title} (${room.location}). Please share viewing availability.`;
+  const getCurrentPrice = () => {
+    if (selectedDuration === 'Daily') return room.pricesAED.daily;
+    if (selectedDuration === 'Weekly') return room.pricesAED.weekly;
+    return room.pricesAED.monthly;
+  };
+
+  const getCurrentPrices = () => {
+    if (selectedDuration === 'Daily') return dailyPrices;
+    if (selectedDuration === 'Weekly') return weeklyPrices;
+    return monthlyPrices;
+  };
+
+  const whatsappMessage = `Hi AKS Home, I'm interested in viewing: ${room.title} (${room.location}, ${selectedDuration} option). Please share viewing availability.`;
   const whatsappUrl = `https://wa.me/971507061925?text=${encodeURIComponent(whatsappMessage)}`;
 
   const nextImage = () => {
@@ -190,21 +203,41 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             </div>
           </div>
 
-          {/* Pricing Options Breakdown (Daily / Weekly / Monthly) */}
+          {/* Pricing Options Breakdown - Fully Interactive Click-to-Select */}
           <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#786C66]">
-              Rental Rate Options (All Inclusive Rates in AED, INR & USD)
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#786C66]">
+                Rental Rate Options (Click Card to Select Duration)
+              </h4>
+              <span className="text-[11px] font-bold text-[#C5A059] bg-[#FBF4E6] px-2.5 py-0.5 rounded-md border border-[#C5A059]/30">
+                Selected: {selectedDuration}
+              </span>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               
-              {/* Monthly Rate (Priority & Highlighted) */}
-              <div className="relative p-5 rounded-2xl bg-gradient-to-b from-[#FAF4EC] to-white border-2 border-[#C5A059] shadow-sm flex flex-col justify-between">
-                <span className="absolute -top-3 right-4 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C5A059] text-white">
-                  Best Value
-                </span>
-                <div>
-                  <span className="text-xs font-bold text-[#786C66] uppercase">Monthly Rent</span>
-                  <div className="text-2xl font-extrabold text-[#2A2421] mt-1">
+              {/* Monthly Rate Option Card */}
+              <div 
+                onClick={() => setSelectedDuration('Monthly')}
+                className={`relative p-5 rounded-2xl cursor-pointer transition-all flex flex-col justify-between select-none ${
+                  selectedDuration === 'Monthly'
+                    ? 'bg-gradient-to-b from-[#FAF4EC] to-white border-2 border-[#C5A059] shadow-md scale-[1.02]'
+                    : 'bg-[#FDF8F3] border border-[#EFE6DF] hover:border-[#C5A059]/60 hover:bg-white opacity-85 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-[#786C66] uppercase">Monthly Rent</span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                    selectedDuration === 'Monthly'
+                      ? 'bg-[#C5A059] text-white'
+                      : 'bg-[#EFE6DF] text-[#786C66]'
+                  }`}>
+                    {selectedDuration === 'Monthly' ? '✓ SELECTED' : 'BEST VALUE'}
+                  </span>
+                </div>
+
+                <div className="mt-3">
+                  <div className="text-2xl font-extrabold text-[#2A2421]">
                     {formatPrice(room.pricesAED.monthly)}
                     <span className="text-xs font-normal text-[#786C66]"> /month</span>
                   </div>
@@ -227,35 +260,71 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
                 </div>
               </div>
 
-              {/* Weekly Rate */}
-              <div className="p-5 rounded-2xl bg-[#FDF8F3] border border-[#EFE6DF] flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-bold text-[#786C66] uppercase">Weekly Stay</span>
-                  <div className="text-xl font-bold text-[#2A2421] mt-1">
+              {/* Weekly Rate Option Card */}
+              <div 
+                onClick={() => setSelectedDuration('Weekly')}
+                className={`relative p-5 rounded-2xl cursor-pointer transition-all flex flex-col justify-between select-none ${
+                  selectedDuration === 'Weekly'
+                    ? 'bg-gradient-to-b from-[#FAF4EC] to-white border-2 border-[#C5A059] shadow-md scale-[1.02]'
+                    : 'bg-[#FDF8F3] border border-[#EFE6DF] hover:border-[#C5A059]/60 hover:bg-white opacity-85 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-[#786C66] uppercase">Weekly Stay</span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                    selectedDuration === 'Weekly'
+                      ? 'bg-[#C5A059] text-white'
+                      : 'bg-[#EFE6DF] text-[#786C66]'
+                  }`}>
+                    {selectedDuration === 'Weekly' ? '✓ SELECTED' : 'FLEXIBLE'}
+                  </span>
+                </div>
+
+                <div className="mt-3">
+                  <div className="text-2xl font-extrabold text-[#2A2421]">
                     {formatPrice(room.pricesAED.weekly)}
                     <span className="text-xs font-normal text-[#786C66]"> /week</span>
                   </div>
                 </div>
+
                 <div className="mt-4 pt-3 border-t border-[#EFE6DF] space-y-1 text-xs text-[#786C66]">
-                  <div className="flex justify-between"><span>AED:</span> <span className="font-medium">{weeklyPrices.AED}</span></div>
-                  <div className="flex justify-between"><span>INR:</span> <span className="font-medium">{weeklyPrices.INR}</span></div>
-                  <div className="flex justify-between"><span>USD:</span> <span className="font-medium">{weeklyPrices.USD}</span></div>
+                  <div className="flex justify-between"><span>AED:</span> <span className="font-semibold text-[#2A2421]">{weeklyPrices.AED}</span></div>
+                  <div className="flex justify-between"><span>INR:</span> <span className="font-semibold text-[#2A2421]">{weeklyPrices.INR}</span></div>
+                  <div className="flex justify-between"><span>USD:</span> <span className="font-semibold text-[#2A2421]">{weeklyPrices.USD}</span></div>
                 </div>
               </div>
 
-              {/* Daily Rate */}
-              <div className="p-5 rounded-2xl bg-[#FDF8F3] border border-[#EFE6DF] flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-bold text-[#786C66] uppercase">Daily Stay</span>
-                  <div className="text-xl font-bold text-[#2A2421] mt-1">
+              {/* Daily Rate Option Card */}
+              <div 
+                onClick={() => setSelectedDuration('Daily')}
+                className={`relative p-5 rounded-2xl cursor-pointer transition-all flex flex-col justify-between select-none ${
+                  selectedDuration === 'Daily'
+                    ? 'bg-gradient-to-b from-[#FAF4EC] to-white border-2 border-[#C5A059] shadow-md scale-[1.02]'
+                    : 'bg-[#FDF8F3] border border-[#EFE6DF] hover:border-[#C5A059]/60 hover:bg-white opacity-85 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-[#786C66] uppercase">Daily Stay</span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                    selectedDuration === 'Daily'
+                      ? 'bg-[#C5A059] text-white'
+                      : 'bg-[#EFE6DF] text-[#786C66]'
+                  }`}>
+                    {selectedDuration === 'Daily' ? '✓ SELECTED' : 'SHORT STAY'}
+                  </span>
+                </div>
+
+                <div className="mt-3">
+                  <div className="text-2xl font-extrabold text-[#2A2421]">
                     {formatPrice(room.pricesAED.daily)}
                     <span className="text-xs font-normal text-[#786C66]"> /day</span>
                   </div>
                 </div>
+
                 <div className="mt-4 pt-3 border-t border-[#EFE6DF] space-y-1 text-xs text-[#786C66]">
-                  <div className="flex justify-between"><span>AED:</span> <span className="font-medium">{dailyPrices.AED}</span></div>
-                  <div className="flex justify-between"><span>INR:</span> <span className="font-medium">{dailyPrices.INR}</span></div>
-                  <div className="flex justify-between"><span>USD:</span> <span className="font-medium">{dailyPrices.USD}</span></div>
+                  <div className="flex justify-between"><span>AED:</span> <span className="font-semibold text-[#2A2421]">{dailyPrices.AED}</span></div>
+                  <div className="flex justify-between"><span>INR:</span> <span className="font-semibold text-[#2A2421]">{dailyPrices.INR}</span></div>
+                  <div className="flex justify-between"><span>USD:</span> <span className="font-semibold text-[#2A2421]">{dailyPrices.USD}</span></div>
                 </div>
               </div>
 
@@ -288,9 +357,11 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
         {/* Bottom CTA Actions */}
         <div className="p-4 sm:p-6 bg-[#FDF8F3] border-t border-[#EFE6DF] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-left w-full sm:w-auto">
-            <span className="text-xs text-[#786C66] block">All-Inclusive Monthly Rent</span>
+            <span className="text-xs text-[#786C66] block">
+              All-Inclusive {selectedDuration} Rate
+            </span>
             <div className="text-xl font-extrabold text-[#2A2421]">
-              {formatPrice(room.pricesAED.monthly)} <span className="text-xs font-normal text-[#786C66]">({monthlyPrices.INR} • {monthlyPrices.USD})</span>
+              {formatPrice(getCurrentPrice())} <span className="text-xs font-normal text-[#786C66]">({getCurrentPrices().INR} • {getCurrentPrices().USD})</span>
             </div>
           </div>
 
@@ -308,11 +379,11 @@ export function RoomDetailModal({ room, onClose, onBookNow }) {
             <button
               onClick={() => {
                 onClose();
-                onBookNow(room);
+                onBookNow(room, selectedDuration);
               }}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] active:scale-95 text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
-              <span>Send Enquiry</span>
+              <span>Send Enquiry ({selectedDuration})</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

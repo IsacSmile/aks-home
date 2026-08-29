@@ -5,12 +5,12 @@ import {
   MessageSquare, ShieldCheck, MapPin, Train, Sparkles, MessageCircle 
 } from 'lucide-react';
 
-export function EnquiryModal({ room, onClose, onSubmitEnquiry }) {
+export function EnquiryModal({ room, initialDuration = 'Monthly', onClose, onSubmitEnquiry }) {
   if (!room) return null;
 
   const { formatPrice, currency } = useCurrency();
 
-  const [duration, setDuration] = useState('Monthly'); // Default Monthly
+  const [duration, setDuration] = useState(initialDuration || 'Monthly');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',

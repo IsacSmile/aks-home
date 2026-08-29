@@ -105,7 +105,7 @@ export default function App() {
 
   // 5. Modal Controllers
   const [selectedDetailRoom, setSelectedDetailRoom] = useState(null);
-  const [selectedEnquiryRoom, setSelectedEnquiryRoom] = useState(null);
+  const [selectedEnquiryRoom, setSelectedEnquiryRoom] = useState(null); // { room, duration } or room object
 
   // Handlers for Room CRUD
   const handleSaveRoom = (roomPayload) => {
@@ -319,14 +319,18 @@ export default function App() {
           <RoomDetailModal
             room={selectedDetailRoom}
             onClose={() => setSelectedDetailRoom(null)}
-            onBookNow={(roomToBook) => setSelectedEnquiryRoom(roomToBook)}
+            onBookNow={(roomToBook, duration) => {
+              setSelectedDetailRoom(null);
+              setSelectedEnquiryRoom({ room: roomToBook, duration });
+            }}
           />
         )}
 
         {/* Booking / Enquiry Form Modal */}
         {selectedEnquiryRoom && (
           <EnquiryModal
-            room={selectedEnquiryRoom}
+            room={selectedEnquiryRoom.room || selectedEnquiryRoom}
+            initialDuration={selectedEnquiryRoom.duration || 'Monthly'}
             onClose={() => setSelectedEnquiryRoom(null)}
             onSubmitEnquiry={handleSubmitEnquiry}
           />
