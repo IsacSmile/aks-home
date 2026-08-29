@@ -183,7 +183,7 @@ export function EnquiryModal({ room, initialDuration = 'Monthly', onClose, onSub
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="e.g. Faiz Imam"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"
@@ -218,7 +218,7 @@ export function EnquiryModal({ room, initialDuration = 'Monthly', onClose, onSub
                     <input
                       type="email"
                       required
-                      placeholder="rahul@example.com"
+                      placeholder="faiz@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full pl-9 pr-3 py-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white"

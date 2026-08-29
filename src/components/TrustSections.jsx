@@ -32,9 +32,9 @@ const tenantFeedback = [
     location: 'Al Rigga, Dubai'
   },
   {
-    id: 'rahul',
-    shortName: 'Rahul',
-    name: 'Rahul Sharma',
+    id: 'faiz',
+    shortName: 'Faiz',
+    name: 'Faiz Imam',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
     company: 'Consulting Group, DIFC',
     role: 'Software Consultant',
