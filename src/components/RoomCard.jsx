@@ -143,28 +143,29 @@ export function RoomCard({ room, onSelectRoom, onQuickBook }) {
         </div>
 
         {/* Key Trust Checklist Pills */}
-        <div className="space-y-1 pt-2 border-t border-[#EFE6DF]">
+        <div className="space-y-1.5 pt-2 border-t border-[#EFE6DF]">
           <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#786C66]">
             <span className="flex items-center gap-1 text-[#278A45] font-semibold">
-              <ShieldCheck className="w-3.5 h-3.5 shrink-0" /> No Deposit • No Commission
+              <ShieldCheck className="w-3.5 h-3.5 shrink-0" /> Zero Deposit • Zero Commission
             </span>
-            <span className="flex items-center gap-1 text-[#C5A059] font-medium hidden sm:flex">
-              <Zap className="w-3 h-3 shrink-0" /> All Inclusive
+            <span className="flex items-center gap-1 text-[#C5A059] font-bold text-[10px] bg-[#FBF4E6] px-2 py-0.5 rounded-md border border-[#C5A059]/20">
+              <Zap className="w-3 h-3 shrink-0 text-[#C5A059]" /> All Bills Included
             </span>
           </div>
 
           <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-[#786C66] bg-[#FAF6F0] px-2.5 py-1 rounded-lg border border-[#EFE6DF]">
             <Users className="w-3 h-3 text-[#C5A059] shrink-0" />
-            <span className="truncate">Peaceful & Respectful Flatmates</span>
+            <span className="truncate font-medium">Peaceful & Respectful Flatmates</span>
           </div>
         </div>
 
-        {/* Pricing & Compact Action Buttons */}
+        {/* Pricing & Executive Action Buttons */}
         <div className="pt-3 border-t border-[#EFE6DF] flex items-end justify-between gap-2">
-          <div>
-            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#786C66] block font-extrabold">
-              ALL INCLUSIVE MONTHLY RENT
+          <div className="min-w-0">
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#786C66] block font-extrabold whitespace-nowrap">
+              All-Inclusive Rent
             </span>
+            
             <div className="flex items-baseline gap-1 mt-0.5">
               <span className="text-xl sm:text-2xl font-extrabold text-[#2A2421] tracking-tight">
                 {formatPrice(room.pricesAED.monthly)}
@@ -172,27 +173,27 @@ export function RoomCard({ room, onSelectRoom, onQuickBook }) {
               <span className="text-xs text-[#786C66] font-bold">/mo</span>
             </div>
             
-            {/* Multi-currency simultaneous preview */}
-            <div className="text-[10px] sm:text-[11px] text-[#786C66] mt-0.5 font-semibold space-x-1">
+            {/* Multi-currency simultaneous preview pill */}
+            <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded-md border border-[#EFE6DF]">
               {currency !== 'AED' && <span>{prices.AED}</span>}
-              {currency !== 'INR' && <span>({prices.INR})</span>}
-              {currency !== 'USD' && <span>({prices.USD})</span>}
+              {currency !== 'INR' && <span>{prices.INR}</span>}
+              {currency !== 'USD' && <span>{prices.USD}</span>}
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => onSelectRoom(room)}
-              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#FAF6F0] hover:bg-[#FAF0E6] text-[#2A2421] text-xs font-extrabold border border-[#EFE6DF] hover:border-[#C5A059]/40 transition-all shadow-2xs hover:shadow-xs active:scale-95"
+              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-white hover:bg-[#FAF6F0] text-[#2A2421] text-xs font-bold border border-[#EFE6DF] hover:border-[#C5A059] transition-all shadow-2xs hover:shadow-xs active:scale-95"
             >
               Details
             </button>
             <button
               onClick={() => onQuickBook(room)}
-              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#2A2421] hover:bg-[#1E1B18] text-[#E6C98B] text-xs font-extrabold transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 group/btn active:scale-95 border border-[#2A2421]"
+              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#1E1B18] hover:bg-[#C5A059] text-[#E6C98B] hover:text-white text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-1.5 group/btn active:scale-95 border border-[#1E1B18]"
             >
               <span>Enquire</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C5A059] group-hover/btn:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 text-[#C5A059] group-hover/btn:text-white group-hover/btn:translate-x-0.5 transition-all" />
             </button>
           </div>
         </div>
