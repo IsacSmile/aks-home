@@ -14,6 +14,25 @@ import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { Building2 } from 'lucide-react';
 
 export default function App() {
+  // Helper to determine page from current pathname / search / hash
+  const getInitialPage = () => {
+    if (typeof window === 'undefined') return 'home';
+    const path = window.location.pathname.toLowerCase();
+    const search = window.location.search.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+
+    if (path.includes('/admin') || search.includes('page=admin') || hash === '#admin') {
+      return 'admin';
+    }
+    if (path.includes('/rooms') || search.includes('page=rooms')) {
+      return 'rooms';
+    }
+    if (path.includes('/about') || search.includes('page=about')) {
+      return 'about';
+    }
+    return 'home';
+  };
+
   // 1. Rooms State with LocalStorage Persistence
   const [rooms, setRooms] = useState(() => {
     const saved = localStorage.getItem('aks_rooms');
@@ -48,28 +67,31 @@ export default function App() {
     localStorage.setItem('aks_enquiries', JSON.stringify(enquiries));
   }, [enquiries]);
 
-  // 3. Navigation & Router State (Check URL param or hash for admin page)
-  const [activePage, setActivePage] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const search = window.location.search;
-      const hash = window.location.hash;
-      if (search.includes('page=admin') || hash === '#admin') {
-        return 'admin';
-      }
-    }
-    return 'home';
-  });
+  // 3. Clean Pathname Router State
+  const [activePage, setActivePageState] = useState(getInitialPage);
 
-  // Sync hash with activePage
-  useEffect(() => {
-    if (activePage === 'admin') {
-      window.history.replaceState(null, '', '?page=admin#admin');
-    } else {
-      if (window.location.search.includes('page=admin') || window.location.hash === '#admin') {
-        window.history.replaceState(null, '', window.location.pathname);
-      }
+  // Sync state & window location
+  const setActivePage = (page) => {
+    setActivePageState(page);
+    let targetPath = '/';
+    if (page === 'admin') targetPath = '/admin';
+    else if (page === 'rooms') targetPath = '/rooms';
+    else if (page === 'about') targetPath = '/about';
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({ page }, '', targetPath);
     }
-  }, [activePage]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Listen to browser Back/Forward navigation buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      setActivePageState(getInitialPage());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // 4. Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
@@ -79,7 +101,6 @@ export default function App() {
   // 5. Modal Controllers
   const [selectedDetailRoom, setSelectedDetailRoom] = useState(null);
   const [selectedEnquiryRoom, setSelectedEnquiryRoom] = useState(null);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   // Handlers for Room CRUD
   const handleSaveRoom = (roomPayload) => {
@@ -263,7 +284,7 @@ export default function App() {
             <About onExploreRooms={() => setActivePage('rooms')} />
           )}
 
-          {/* DEDICATED FULL ADMIN PAGE */}
+          {/* DEDICATED /ADMIN ROUTE PAGE */}
           {activePage === 'admin' && (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <AdminPanel
@@ -295,19 +316,6 @@ export default function App() {
             room={selectedEnquiryRoom}
             onClose={() => setSelectedEnquiryRoom(null)}
             onSubmitEnquiry={handleSubmitEnquiry}
-          />
-        )}
-
-        {/* Modal Admin fallback if opened via onOpenAdmin when not on admin page */}
-        {isAdminOpen && activePage !== 'admin' && (
-          <AdminPanel
-            rooms={rooms}
-            onSaveRoom={handleSaveRoom}
-            onDeleteRoom={handleDeleteRoom}
-            enquiries={enquiries}
-            onDeleteEnquiry={handleDeleteEnquiry}
-            onResetSeed={handleResetSeed}
-            onClose={() => setIsAdminOpen(false)}
           />
         )}
 
