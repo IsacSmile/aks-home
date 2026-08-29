@@ -1,5 +1,5 @@
 import React from 'react';
-import { DoorOpen, Phone, Mail, MapPin, ShieldCheck, Heart, MessageCircle } from 'lucide-react';
+import { DoorOpen, Phone, Mail, MapPin, ShieldCheck, Heart, MessageCircle, Instagram } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
 export function Footer({ setActivePage, onOpenAdmin }) {
@@ -100,21 +100,34 @@ export function Footer({ setActivePage, onOpenAdmin }) {
             </ul>
           </div>
 
-          {/* Direct Contact Info */}
+          {/* Direct Contact Info & Socials */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm text-white uppercase tracking-wider">Contact & Support</h4>
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2.5 text-xs">
+              
+              {/* WhatsApp Button Link */}
               <a
                 href="https://wa.me/971507061925"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[#25D366] font-bold hover:underline"
+                className="flex items-center gap-2.5 text-[#25D366] font-bold hover:underline bg-[#2A2421]/60 px-3 py-2 rounded-xl border border-[#38312D] hover:border-[#25D366]/50 transition-all"
               >
-                <MessageCircle className="w-4 h-4 fill-[#25D366] text-white" />
+                <MessageCircle className="w-4 h-4 fill-[#25D366] text-white shrink-0" />
                 <span>WhatsApp: +971 50 706 1925</span>
               </a>
 
-              <div className="flex items-center gap-2 text-[#A39690]">
+              {/* Instagram Button Link */}
+              <a
+                href="https://instagram.com/akshomedubai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-[#E1306C] font-bold hover:underline bg-[#2A2421]/60 px-3 py-2 rounded-xl border border-[#38312D] hover:border-[#E1306C]/50 transition-all"
+              >
+                <Instagram className="w-4 h-4 text-[#E1306C] shrink-0" />
+                <span>Instagram: @akshomedubai</span>
+              </a>
+
+              <div className="flex items-center gap-2 text-[#A39690] pt-1">
                 <Mail className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>contact@akshome.ae</span>
               </div>
@@ -137,6 +150,7 @@ export function Footer({ setActivePage, onOpenAdmin }) {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
 
