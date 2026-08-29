@@ -160,42 +160,34 @@ export function RoomCard({ room, onSelectRoom, onQuickBook }) {
         </div>
 
         {/* Pricing & Executive Action Buttons */}
-        <div className="pt-3 border-t border-[#EFE6DF] flex items-end justify-between gap-2">
+        <div className="pt-2.5 border-t border-[#EFE6DF] flex items-center justify-between gap-2">
           <div className="min-w-0">
             <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#786C66] block font-extrabold whitespace-nowrap">
               All-Inclusive Rent
             </span>
             
             <div className="flex items-baseline gap-1 mt-0.5">
-              <span className="text-xl sm:text-2xl font-extrabold text-[#2A2421] tracking-tight">
+              <span className="text-base sm:text-lg font-extrabold text-[#2A2421] tracking-tight">
                 {formatPrice(room.pricesAED.monthly)}
               </span>
-              <span className="text-xs text-[#786C66] font-bold">/mo</span>
+              <span className="text-[11px] text-[#786C66] font-bold">/mo</span>
             </div>
             
             {/* Multi-currency simultaneous preview pill */}
-            <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded-md border border-[#EFE6DF]">
+            <div className="mt-0.5 inline-flex items-center gap-1 text-[10px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded-md border border-[#EFE6DF]">
               {currency !== 'AED' && <span>{prices.AED}</span>}
               {currency !== 'INR' && <span>{prices.INR}</span>}
               {currency !== 'USD' && <span>{prices.USD}</span>}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => onSelectRoom(room)}
-              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-white hover:bg-[#FAF6F0] text-[#2A2421] text-xs font-bold border border-[#EFE6DF] hover:border-[#C5A059] transition-all shadow-2xs hover:shadow-xs active:scale-95"
-            >
-              Details
-            </button>
-            <button
-              onClick={() => onQuickBook(room)}
-              className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#1E1B18] hover:bg-[#C5A059] text-[#E6C98B] hover:text-white text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-1.5 group/btn active:scale-95 border border-[#1E1B18]"
-            >
-              <span>Enquire</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C5A059] group-hover/btn:text-white group-hover/btn:translate-x-0.5 transition-all" />
-            </button>
-          </div>
+          <button
+            onClick={() => onQuickBook(room)}
+            className="px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-xl bg-[#1E1B18] hover:bg-[#C5A059] text-[#E6C98B] hover:text-white text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-1.5 group/btn active:scale-95 border border-[#1E1B18] shrink-0"
+          >
+            <span>Enquire</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#C5A059] group-hover/btn:text-white group-hover/btn:translate-x-0.5 transition-all" />
+          </button>
         </div>
 
       </div>
