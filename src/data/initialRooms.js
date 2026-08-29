@@ -19,7 +19,7 @@ export const initialRooms = [
     images: [
       "/images/loft_partition.jpg",
       "/images/blue_partition.jpg",
-      "/images/pink_partition.jpg"
+      "/images/compact_bed.jpg"
     ],
     amenities: [
       "Loft Partition with Window",
@@ -52,7 +52,7 @@ export const initialRooms = [
       monthly: 1550
     },
     images: [
-      "/images/pink_partition.jpg",
+      "/images/compact_bed.jpg",
       "/images/loft_partition.jpg",
       "/images/blue_partition.jpg"
     ],
@@ -156,7 +156,7 @@ export const initialRooms = [
     },
     images: [
       "/images/loft_partition.jpg",
-      "/images/pink_partition.jpg"
+      "/images/compact_bed.jpg"
     ],
     amenities: [
       "Deluxe Studio Partition",
@@ -189,7 +189,7 @@ export const initialRooms = [
       monthly: 1650
     },
     images: [
-      "/images/pink_partition.jpg",
+      "/images/compact_bed.jpg",
       "/images/loft_partition.jpg"
     ],
     amenities: [
