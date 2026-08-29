@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, Users, Zap, Train, Globe, CheckCircle2, 
-  Star, Quote, UserCheck, Eye, DoorOpen, MessageCircle, 
+  Star, UserCheck, DoorOpen, MessageCircle, 
   ChevronLeft, ChevronRight, MapPin, Sparkles, Building2, Briefcase
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
@@ -12,97 +12,102 @@ const tenantFeedback = [
     shortName: 'Reshma',
     name: 'Reshma Varghese',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
-    role: 'Senior Data Analyst',
     company: 'Fintech Corp, Business Bay',
-    location: 'Baniyas Square Metro (2 mins walk)',
-    badge: 'ZERO DEPOSIT MOVE-IN',
-    tagColor: 'bg-[#EBF7EE] text-[#278A45]',
-    quote: '"The zero deposit move-in and direct landlord pricing saved me so much initial capital when relocating to Dubai. Being 2 minutes walk from Baniyas Metro exit makes my daily office commute effortless and stress-free!"',
-    city: 'Baniyas Square, Dubai'
+    role: 'Senior Data Analyst',
+    badge: '⚡ ZERO DEPOSIT',
+    badgeType: 'Direct Landlord',
+    quote: '"The personalized assistance for room selection and zero security deposit saved me so much time and upfront money. Super responsive and transparent team!"',
+    location: 'Baniyas Square, Dubai'
   },
   {
     id: 'karthik',
     shortName: 'Karthik',
     name: 'Karthik Raja',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-    role: 'AI & Cloud Engineer',
     company: 'Tech Hub, Internet City',
-    location: 'Al Rigga Metro Exit 2 (1 min walk)',
-    badge: 'VERIFIED LOFT PARTITION',
-    tagColor: 'bg-[#FBF4E6] text-[#C5A059]',
-    quote: '"On-the-ground support is what sets AKS Home apart. The apartment is sparkling clean, the 1Gbps WiFi is lightning fast for remote work, and flatmates are quiet working professionals like myself."',
-    city: 'Al Rigga, Dubai'
+    role: 'AI & Cloud Engineer',
+    badge: '✈ METRO WELCOME',
+    badgeType: 'On-Ground Support',
+    quote: '"On-the-ground support in Dubai is what sets them apart. Being met near the Al Rigga Metro exit and helped into my clean partition room made day 1 feel like home."',
+    location: 'Al Rigga, Dubai'
   },
   {
     id: 'rahul',
     shortName: 'Rahul',
     name: 'Rahul Sharma',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
-    role: 'Software Consultant',
     company: 'Consulting Group, DIFC',
-    location: 'Al Maktoum St (Clock Tower)',
-    badge: 'ALL BILLS INCLUDED',
-    tagColor: 'bg-[#FBF4E6] text-[#C5A059]',
-    quote: '"Clean room, peaceful environment, and zero hidden broker commissions. Everything from DEWA central AC to 1Gbps fiber internet is included in one transparent monthly rate. Highly recommended!"',
-    city: 'Clock Tower Area, Dubai'
+    role: 'Software Consultant',
+    badge: '🔒 ALL BILLS COVERED',
+    badgeType: '1Gbps WiFi Included',
+    quote: '"Everything from 1Gbps high-speed fiber WiFi to DEWA central AC is fully included in one transparent monthly rate. The flatmates are respectful and very quiet."',
+    location: 'Clock Tower Area, Dubai'
   },
   {
     id: 'priya',
     shortName: 'Priya',
     name: 'Priya Sundaram',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-    role: 'Financial Accountant',
     company: 'Audit Firm, Deira',
-    location: 'Gold Souk Metro Station',
-    badge: 'RESPECTFUL FLATMATES',
-    tagColor: 'bg-[#EBF7EE] text-[#278A45]',
-    quote: '"I was concerned about privacy in flatsharing, but the partition rooms are sturdy, private, and fully air-conditioned. The flatmates observe strict quiet hours after 10 PM. A really peaceful place."',
-    city: 'Deira Commercial Hub'
+    role: 'Financial Accountant',
+    badge: '🛡 RESPECTFUL LIVING',
+    badgeType: 'Quiet Hours Enforced',
+    quote: '"The partition rooms are private, clean, and sturdy. Strict quiet hours after 10 PM make it ideal for working professionals who need peaceful rest after work."',
+    location: 'Deira Hub, Dubai'
   },
   {
     id: 'ahmed',
     shortName: 'Ahmed',
     name: 'Ahmed Al-Mansoori',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80',
-    role: 'Retail Operations Manager',
     company: 'Retail Group, BurJuman',
-    location: 'Union Metro Interchange',
-    badge: '1-MIN METRO ACCESS',
-    tagColor: 'bg-[#FBF4E6] text-[#C5A059]',
-    quote: '"Exact walking distance to the Metro as advertised. The management team conducts regular deep cleaning of shared areas. Truly the best value flatshare in central Dubai!"',
-    city: 'Union Hub, Dubai'
+    role: 'Operations Manager',
+    badge: '🚇 1-MIN METRO WALK',
+    badgeType: 'Prime Location',
+    quote: '"Exact walking distance to the Metro exit as advertised. Weekly deep cleaning services keep the washrooms and kitchen in top hygienic condition."',
+    location: 'Union Hub, Dubai'
   },
   {
     id: 'fatima',
     shortName: 'Fatima',
     name: 'Fatima Khan',
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80',
-    role: 'Marketing Executive',
     company: 'Digital Agency, Downtown',
-    location: 'Baniyas Square Metro Exit 1',
-    badge: 'FEMALE FRIENDLY & SECURE',
-    tagColor: 'bg-[#EBF7EE] text-[#278A45]',
-    quote: '"Safe, modern, and very well maintained. The manager was extremely polite on WhatsApp and set up my room viewing within an hour. Moved in same day with total peace of mind."',
-    city: 'Baniyas Square, Dubai'
+    role: 'Marketing Executive',
+    badge: '✨ FEMALE FRIENDLY',
+    badgeType: 'Secure Access',
+    quote: '"Safe, modern, and very well maintained flatshares. The manager arranged a virtual video viewing on WhatsApp within minutes and I moved in the same evening."',
+    location: 'Baniyas Square, Dubai'
   },
   {
     id: 'daniel',
     shortName: 'Daniel',
     name: 'Daniel Torres',
     avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80',
-    role: 'Hospitality Executive',
     company: 'Luxury Hotel, SZR Dubai',
-    location: 'Al Rigga Metro Exit 2',
-    badge: 'NO BROKERAGE FEE',
-    tagColor: 'bg-[#FBF4E6] text-[#C5A059]',
-    quote: '"Clear multi-currency pricing in AED, USD & INR. Zero deposit meant I didn\'t have thousands of Dirhams frozen upon arrival. Excellent service and super responsive management team!"',
-    city: 'Al Rigga, Dubai'
+    role: 'Hospitality Executive',
+    badge: '💼 NO BROKERAGE FEE',
+    badgeType: 'Transparent Rates',
+    quote: '"Clear rates in AED, USD & INR simultaneously. Zero deposit meant no frozen cash upon landing in Dubai. Superior customer service and super friendly team!"',
+    location: 'Al Rigga, Dubai'
+  },
+  {
+    id: 'sneha',
+    shortName: 'Sneha',
+    name: 'Sneha Patel',
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80',
+    company: 'Logistics Hub, JAFZA',
+    role: 'Supply Chain Analyst',
+    badge: '🔑 INSTANT MOVE-IN',
+    badgeType: 'Verified Space',
+    quote: '"Quick, professional, and friendly move-in process. The room looks exactly like the photos on the website. Extremely satisfied with AKS Home!"',
+    location: 'Union Hub, Dubai'
   }
 ];
 
 export function TrustSections({ onExploreRooms }) {
   const { formatPrice } = useCurrency();
-  const [activeTenantIndex, setActiveTenantIndex] = useState(0);
+  const [activeTenantIndex, setActiveTenantIndex] = useState(1); // Default to Karthik as in reference screenshot
 
   const activeTenant = tenantFeedback[activeTenantIndex];
 
@@ -182,150 +187,161 @@ export function TrustSections({ onExploreRooms }) {
         </div>
       </section>
 
-      {/* 2. INTERACTIVE TENANT REVIEWS & FEEDBACK CAROUSEL (Avatar Switcher UI) */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
-        {/* Header Title */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[10px] sm:text-xs font-extrabold tracking-wider uppercase shadow-xs border border-[#C5A059]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-            <span>VERIFIED TENANT REVIEWS</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-[#2A2421] tracking-tight">
-            Real Residents. Genuine Feedback.
-          </h2>
+      {/* 2. EXACT MATCHING FEEDBACK SECTION (Warm Background + Pill Cloud + Card UI) */}
+      <section className="bg-[#FAF7F2] py-12 sm:py-16 border-y border-[#EFE6DF]/60">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
-          <p className="text-xs sm:text-sm text-[#786C66] max-w-lg mx-auto leading-relaxed font-medium">
-            Hear directly from working professionals living in our Dubai metro flatshares.
-          </p>
-        </div>
+          {/* Header Title Section */}
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0F382C] text-white text-[11px] font-extrabold tracking-wider uppercase shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#E6C98B]" />
+              <span>VERIFIED TENANT SUCCESS STORIES</span>
+            </div>
 
-        {/* Avatar Switcher Chips Bar (Scrollable on Mobile) */}
-        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 scrollbar-thin select-none px-1">
-          {tenantFeedback.map((tenant, idx) => {
-            const isActive = idx === activeTenantIndex;
-            return (
-              <button
-                key={tenant.id}
-                onClick={() => setActiveTenantIndex(idx)}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 border shrink-0 ${
-                  isActive
-                    ? 'bg-[#1E1B18] text-white border-[#1E1B18] shadow-md scale-105'
-                    : 'bg-white text-[#786C66] border-[#EFE6DF] hover:bg-[#FAF6F0] hover:border-[#C5A059]/40'
-                }`}
-              >
-                <img
-                  src={tenant.avatar}
-                  alt={tenant.name}
-                  className={`w-6 h-6 rounded-full object-cover border ${
-                    isActive ? 'border-[#C5A059]' : 'border-gray-200'
-                  }`}
-                />
-                <span>{tenant.shortName}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Selected Tenant Feedback Card */}
-        <div className="relative bg-white rounded-3xl p-6 sm:p-10 border border-[#EFE6DF] shadow-xl shadow-black/[0.03] space-y-6 overflow-hidden transition-all duration-300">
-          
-          {/* Decorative Large Watermark Quote Icon */}
-          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 text-[#C5A059]/10 pointer-events-none">
-            <Quote className="w-16 h-16 sm:w-24 sm:h-24 stroke-1 fill-[#C5A059]/10 text-[#C5A059]" />
-          </div>
-
-          {/* Tenant Profile Top Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2A2421] tracking-tight font-serif">
+              Real Residents. Proven Pathways.
+            </h2>
             
-            <div className="flex items-center gap-4">
-              {/* Tenant Photo with Verified Badge */}
-              <div className="relative">
+            <p className="text-xs sm:text-sm text-[#786C66] max-w-lg mx-auto leading-relaxed font-normal">
+              Hear directly from working professionals successfully living in top Dubai metro flatshares.
+            </p>
+          </div>
+
+          {/* Staggered Avatar Pills Container */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-xl mx-auto px-2">
+            {tenantFeedback.map((tenant, idx) => {
+              const isActive = idx === activeTenantIndex;
+              return (
+                <button
+                  key={tenant.id}
+                  onClick={() => setActiveTenantIndex(idx)}
+                  className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 shadow-2xs border ${
+                    isActive
+                      ? 'bg-[#0F382C] text-white border-[#0F382C] shadow-md scale-105'
+                      : 'bg-white text-[#2A2421] border-gray-200 hover:bg-[#FAF6F0] hover:border-[#C5A059]/40'
+                  }`}
+                >
+                  <img
+                    src={tenant.avatar}
+                    alt={tenant.name}
+                    className="w-5 h-5 rounded-full object-cover shrink-0"
+                  />
+                  <span>{tenant.shortName}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Review Card - Exact Match to Screenshot */}
+          <div className="relative bg-white rounded-3xl p-6 sm:p-9 shadow-xl shadow-black/[0.04] border border-[#EFE6DF] space-y-5">
+            
+            {/* Big Pink Quote Watermark in top right */}
+            <div className="absolute top-5 right-6 text-[#F9D5D5]/80 pointer-events-none select-none">
+              <span className="text-6xl sm:text-7xl font-serif leading-none font-bold text-[#F8D4D4]">”</span>
+            </div>
+
+            {/* Header: Photo + Rating + Name + Details */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 relative z-10">
+              
+              {/* Avatar Photo with VERIFIED ~ Badge overlapping bottom */}
+              <div className="relative shrink-0">
                 <img
                   src={activeTenant.avatar}
                   alt={activeTenant.name}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-[#C5A059] shadow-md"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-gray-200 shadow-sm"
                 />
-                <span className="absolute -bottom-2 -right-1 bg-[#D93025] text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs flex items-center gap-0.5 tracking-wider">
-                  VERIFIED ✓
+                <span className="absolute -bottom-2 -left-1 bg-[#D93025] text-white text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1 tracking-tight">
+                  <span>VERIFIED</span>
+                  <span className="text-[10px]">~</span>
                 </span>
               </div>
 
-              {/* Name & Job Title */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5 text-[#C5A059] pb-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#C5A059] text-[#C5A059]" />
-                  ))}
+              {/* Stars + Badge + Name + Details */}
+              <div className="space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* 5 Crimson Stars */}
+                  <div className="flex items-center gap-0.5 text-[#D93025]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#D93025] text-[#D93025]" />
+                    ))}
+                  </div>
+                  
+                  {/* Pink Badge Pill */}
+                  <span className="bg-[#FDE8E8] text-[#D93025] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    {activeTenant.badge}
+                  </span>
                 </div>
 
-                <h3 className="text-lg sm:text-2xl font-extrabold text-[#2A2421]">
+                {/* Name */}
+                <h3 className="text-xl sm:text-2xl font-bold text-[#2A2421] font-serif">
                   {activeTenant.name}
                 </h3>
-                
-                <p className="text-xs text-[#786C66] flex items-center gap-1.5 font-medium">
-                  <Briefcase className="w-3.5 h-3.5 text-[#C5A059]" />
-                  <span>{activeTenant.role}</span>
-                  <span className="text-[#A39690]">•</span>
-                  <span className="text-[#2A2421] font-semibold">{activeTenant.company}</span>
-                </p>
+
+                {/* Company & Role Details */}
+                <div className="space-y-0.5 text-xs text-[#554A45]">
+                  <p className="flex items-center gap-1.5 font-medium">
+                    <Building2 className="w-3.5 h-3.5 text-[#786C66]" />
+                    <span>{activeTenant.company}</span>
+                  </p>
+                  <p className="flex items-center gap-1.5 font-bold text-[#0F382C]">
+                    <Briefcase className="w-3.5 h-3.5 text-[#0F382C]" />
+                    <span>{activeTenant.role}</span>
+                  </p>
+                </div>
               </div>
+
             </div>
 
-            {/* Feature Tag Pill */}
-            <div className="self-start sm:self-auto">
-              <span className={`text-[10px] sm:text-xs font-extrabold uppercase px-3 py-1.5 rounded-xl border border-[#C5A059]/20 shadow-2xs tracking-wider inline-block ${activeTenant.tagColor}`}>
-                {activeTenant.badge}
+            {/* Divider */}
+            <hr className="border-[#EFE6DF] my-2" />
+
+            {/* Quote Paragraph */}
+            <p className="text-xs sm:text-sm text-[#38312D] leading-relaxed italic font-normal">
+              {activeTenant.quote}
+            </p>
+
+            {/* Card Bottom Footer */}
+            <div className="pt-2 flex items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-1.5 text-[#D93025] font-semibold">
+                <MapPin className="w-4 h-4 fill-[#D93025] text-white" />
+                <span>{activeTenant.location}</span>
+              </div>
+
+              <span className="bg-[#F4F8F5] text-[#0F382C] text-[11px] font-bold px-3 py-1 rounded-xl border border-[#0F382C]/15">
+                {activeTenant.badgeType}
               </span>
             </div>
 
           </div>
 
-          {/* Quote Body Text */}
-          <div className="pt-2 border-t border-[#EFE6DF] relative z-10">
-            <p className="text-sm sm:text-lg text-[#2A2421] leading-relaxed italic font-medium">
-              {activeTenant.quote}
-            </p>
-          </div>
-
-          {/* Location Footer Bar inside Card */}
-          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#786C66] relative z-10">
-            <div className="flex items-center gap-1.5 font-semibold text-[#2A2421]">
-              <MapPin className="w-4 h-4 text-[#C5A059]" />
-              <span>{activeTenant.location}</span>
+          {/* Bottom Pagination & Controls */}
+          <div className="flex items-center justify-between pt-2 px-1 text-xs font-semibold text-[#786C66]">
+            <div>
+              <span>Resident </span>
+              <span className="font-extrabold text-[#2A2421]">{activeTenantIndex + 1}</span>
+              <span> of {tenantFeedback.length}</span>
             </div>
-            <span className="text-[11px] font-bold text-[#278A45] bg-[#EBF7EE] px-2.5 py-1 rounded-lg self-start sm:self-auto">
-              📍 {activeTenant.city}
-            </span>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrevTenant}
+                aria-label="Previous resident"
+                className="w-10 h-10 rounded-full bg-white hover:bg-[#FAF6F0] text-[#2A2421] border border-gray-300 flex items-center justify-center shadow-xs transition-all active:scale-95"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={handleNextTenant}
+                aria-label="Next resident"
+                className="w-10 h-10 rounded-full bg-[#0F382C] hover:bg-[#154a3b] text-white flex items-center justify-center shadow-md transition-all active:scale-95"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
         </div>
-
-        {/* Carousel Prev/Next Footer Controls */}
-        <div className="flex items-center justify-between pt-2">
-          <span className="text-xs font-bold text-[#786C66]">
-            Resident <span className="text-[#2A2421] font-extrabold">{activeTenantIndex + 1}</span> of {tenantFeedback.length}
-          </span>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrevTenant}
-              aria-label="Previous review"
-              className="w-10 h-10 rounded-full bg-white hover:bg-[#1E1B18] text-[#2A2421] hover:text-white border border-[#EFE6DF] flex items-center justify-center shadow-sm transition-all duration-200 active:scale-95"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handleNextTenant}
-              aria-label="Next review"
-              className="w-10 h-10 rounded-full bg-[#1E1B18] hover:bg-[#C5A059] text-white border border-[#1E1B18] flex items-center justify-center shadow-sm transition-all duration-200 active:scale-95"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
       </section>
 
       {/* 3. HOW IT WORKS (SIMPLE 3-STEP PROCESS) */}
