@@ -11,7 +11,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
 import { TrustSections } from './components/TrustSections';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
-import { DoorOpen, Sparkles, Building2, Train, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 export default function App() {
   // 1. Rooms State with LocalStorage Persistence
@@ -48,8 +48,28 @@ export default function App() {
     localStorage.setItem('aks_enquiries', JSON.stringify(enquiries));
   }, [enquiries]);
 
-  // 3. Navigation & Router State
-  const [activePage, setActivePage] = useState('home'); // 'home' | 'rooms' | 'about'
+  // 3. Navigation & Router State (Check URL param or hash for admin page)
+  const [activePage, setActivePage] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const search = window.location.search;
+      const hash = window.location.hash;
+      if (search.includes('page=admin') || hash === '#admin') {
+        return 'admin';
+      }
+    }
+    return 'home';
+  });
+
+  // Sync hash with activePage
+  useEffect(() => {
+    if (activePage === 'admin') {
+      window.history.replaceState(null, '', '?page=admin#admin');
+    } else {
+      if (window.location.search.includes('page=admin') || window.location.hash === '#admin') {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    }
+  }, [activePage]);
 
   // 4. Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
@@ -119,7 +139,7 @@ export default function App() {
         <Navbar
           activePage={activePage}
           setActivePage={setActivePage}
-          onOpenAdmin={() => setIsAdminOpen(true)}
+          onOpenAdmin={() => setActivePage('admin')}
         />
 
         {/* Main Page View Area */}
@@ -243,6 +263,21 @@ export default function App() {
             <About onExploreRooms={() => setActivePage('rooms')} />
           )}
 
+          {/* DEDICATED FULL ADMIN PAGE */}
+          {activePage === 'admin' && (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <AdminPanel
+                rooms={rooms}
+                onSaveRoom={handleSaveRoom}
+                onDeleteRoom={handleDeleteRoom}
+                enquiries={enquiries}
+                onDeleteEnquiry={handleDeleteEnquiry}
+                onResetSeed={handleResetSeed}
+                onClose={() => setActivePage('home')}
+              />
+            </div>
+          )}
+
         </main>
 
         {/* Room Detail View Modal */}
@@ -263,8 +298,8 @@ export default function App() {
           />
         )}
 
-        {/* Admin CRUD Management Panel */}
-        {isAdminOpen && (
+        {/* Modal Admin fallback if opened via onOpenAdmin when not on admin page */}
+        {isAdminOpen && activePage !== 'admin' && (
           <AdminPanel
             rooms={rooms}
             onSaveRoom={handleSaveRoom}
@@ -282,7 +317,7 @@ export default function App() {
         {/* Bottom Footer */}
         <Footer
           setActivePage={setActivePage}
-          onOpenAdmin={() => setIsAdminOpen(true)}
+          onOpenAdmin={() => setActivePage('admin')}
         />
 
       </div>
