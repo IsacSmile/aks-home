@@ -219,9 +219,17 @@ export function Footer({ setActivePage, onOpenAdmin }) {
         {/* Bottom Copyright Bar */}
         <div className="pt-8 border-t border-[#2A2421] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#786C66]">
           <p>© {new Date().getFullYear()} AKS Home Dubai. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            <span>Designed for Dubai Working Expatriates</span>
-            <Heart className="w-3 h-3 text-[#C5A059] fill-[#C5A059]" />
+          <p className="flex items-center gap-1.5 font-medium">
+            <span>Engineered by</span>
+            <a
+              href="https://www.instagram.com/faiz_imam__/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#C5A059] font-bold hover:text-white hover:underline transition-colors flex items-center gap-1 bg-[#2A2421] px-2.5 py-1 rounded-md border border-[#38312D]"
+            >
+              <span>Faiz.I</span>
+              <Heart className="w-3 h-3 text-[#C5A059] fill-[#C5A059]" />
+            </a>
           </p>
         </div>
 
