@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, CheckCircle2, Train, Zap, ArrowRight, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, MapPin, CheckCircle2, Train, Zap, ArrowRight, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, RotateCcw, Sparkles } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
 const heroSlides = [
@@ -84,42 +84,77 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
     }
   };
 
-  // Compact Mode: Render ONLY Search & Filter Controls (For Explore Rooms Catalog Page)
+  const isFiltered = searchQuery || selectedType !== 'All' || maxBudget < 2300;
+
+  // Compact Mode: Ultra-Modern Filter Bar for Explore Rooms Catalog Page
   if (compactMode) {
     return (
-      <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-[#EFE6DF] text-left">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
+      <div className="bg-white/95 backdrop-blur-md p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl shadow-black/[0.03] border border-[#EFE6DF] space-y-4 text-left">
+        
+        {/* Quick Filter Type Chips (Horizontally Scrollable on Mobile) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none select-none">
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#A39690] shrink-0 mr-1 flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#C5A059]" /> Quick Filter:
+          </span>
+          {roomTypes.map((type) => {
+            const isSelected = selectedType === type;
+            return (
+              <button
+                key={type}
+                onClick={() => setSelectedType(type)}
+                className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 border shrink-0 ${
+                  isSelected
+                    ? 'bg-[#2A2421] text-white border-[#2A2421] shadow-xs'
+                    : 'bg-[#FAF6F0] text-[#786C66] border-[#EFE6DF] hover:bg-white hover:border-[#C5A059]/40'
+                }`}
+              >
+                {type === 'All' ? 'All Rooms' : type}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Inputs Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5 items-end pt-1">
           
           {/* Column 1: Search Location */}
           <div className="space-y-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-[#786C66] flex items-center gap-1 min-h-[20px]">
-              <MapPin className="w-3.5 h-3.5 text-[#C5A059]" /> Search Location / Station
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-[#786C66] flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-[#C5A059]" /> Location / Metro Station
             </label>
             <div className="relative">
               <input
                 type="text"
-                placeholder="e.g. Baniyas, Al Rigga, Deira..."
+                placeholder="Search station or area (e.g. Baniyas, Rigga)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 pl-9 pr-3.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] placeholder-[#A39690] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all"
+                className="w-full h-11 sm:h-12 pl-9 pr-3.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs sm:text-sm text-[#2A2421] placeholder-[#A39690] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all shadow-2xs"
               />
-              <Search className="w-4 h-4 text-[#A39690] absolute left-3 top-3.5" />
+              <Search className="w-4 h-4 text-[#A39690] absolute left-3 top-3.5 sm:top-4" />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-3.5 sm:top-4 text-xs font-bold text-[#A39690] hover:text-[#2A2421]"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Column 2: Room Type */}
+          {/* Column 2: Room Type Dropdown */}
           <div className="space-y-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-[#786C66] flex items-center min-h-[20px]">
-              Room Type
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-[#786C66] flex items-center gap-1.5">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#C5A059]" /> Room Layout Type
             </label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full h-11 px-3.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all cursor-pointer"
+              className="w-full h-11 sm:h-12 px-3.5 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl text-xs sm:text-sm text-[#2A2421] focus:outline-none focus:border-[#C5A059] focus:bg-white transition-all cursor-pointer shadow-2xs"
             >
               {roomTypes.map((type) => (
                 <option key={type} value={type}>
-                  {type === 'All' ? 'All Room Types' : type}
+                  {type === 'All' ? 'All Room Layouts' : type}
                 </option>
               ))}
             </select>
@@ -127,13 +162,13 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
 
           {/* Column 3: Max Budget Range */}
           <div className="space-y-1.5">
-            <div className="flex justify-between items-center min-h-[20px]">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-[#786C66]">Max Rent</label>
-              <span className="text-xs font-bold text-[#C5A059]">
+            <div className="flex justify-between items-center">
+              <label className="text-[11px] font-extrabold uppercase tracking-wider text-[#786C66]">Max Budget</label>
+              <span className="text-xs font-extrabold text-[#C5A059] bg-[#FDF8F3] px-2.5 py-0.5 rounded-md border border-[#C5A059]/20">
                 {maxBudget ? formatPrice(maxBudget) : 'Any Price'}
               </span>
             </div>
-            <div className="h-11 flex items-center px-2 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl">
+            <div className="h-11 sm:h-12 flex items-center px-3 bg-[#FAF6F0] border border-[#EFE6DF] rounded-xl shadow-2xs">
               <input
                 type="range"
                 min="600"
@@ -147,6 +182,25 @@ export function Hero({ searchQuery, setSearchQuery, selectedType, setSelectedTyp
           </div>
 
         </div>
+
+        {/* Active Filter Indicator & Clear Button */}
+        {isFiltered && (
+          <div className="pt-2 border-t border-[#EFE6DF] flex items-center justify-between text-xs text-[#786C66]">
+            <span>Active filters applied</span>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedType('All');
+                setMaxBudget(2300);
+              }}
+              className="flex items-center gap-1 text-[#C5A059] hover:text-[#99732F] font-bold transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset Filters</span>
+            </button>
+          </div>
+        )}
+
       </div>
     );
   }

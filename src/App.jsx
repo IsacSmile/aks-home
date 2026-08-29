@@ -10,7 +10,7 @@ import { About } from './components/About';
 import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
 import { TrustSections } from './components/TrustSections';
-import { Building2 } from 'lucide-react';
+import { Building2, Sparkles, MapPin, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   // Helper to determine page from current pathname / search / hash
@@ -252,21 +252,36 @@ export default function App() {
 
           {/* ROOMS CATALOG PAGE */}
           {activePage === 'rooms' && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-              <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#C5A059]">
-                  Complete Catalog
-                </span>
-                <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2A2421]">
-                  Explore Dubai Rooms & Partitions
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+              
+              {/* Modern Hero Header Section */}
+              <div className="text-center max-w-3xl mx-auto space-y-3 px-2">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[11px] font-extrabold tracking-wider uppercase shadow-xs border border-[#C5A059]/30">
+                  <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>COMPLETE METRO CATALOG</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2A2421] tracking-tight leading-tight">
+                  Explore Dubai Rooms & <span className="text-[#C5A059]">Partitions</span>
                 </h1>
-                <p className="text-sm text-[#786C66]">
-                  Filter by station location or room type below. All listings guaranteed no deposit & no commission.
+
+                <p className="text-sm sm:text-base text-[#786C66] max-w-xl mx-auto leading-relaxed font-medium">
+                  Filter by station location or room layout below. All private spaces are verified with <span className="font-bold text-[#278A45]">Zero Deposit</span> & <span className="font-bold text-[#278A45]">Zero Commission</span>.
                 </p>
+
+                {/* Trust Badges */}
+                <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-[#786C66]">
+                  <span className="bg-white px-3 py-1 rounded-full border border-[#EFE6DF] shadow-2xs flex items-center gap-1.5">
+                    📍 Baniyas • Rigga • Clock Tower
+                  </span>
+                  <span className="bg-[#EBF7EE] text-[#278A45] px-3 py-1 rounded-full border border-[#278A45]/20 flex items-center gap-1.5">
+                    ✓ Direct Landlord Pricing
+                  </span>
+                </div>
               </div>
 
-              {/* Filter Controls Bar (Clean Standalone Search without Hero Banner) */}
-              <div className="max-w-4xl mx-auto">
+              {/* Filter Controls Bar (Standalone Compact Filter with Quick Type Chips) */}
+              <div className="max-w-5xl mx-auto">
                 <Hero
                   compactMode={true}
                   searchQuery={searchQuery}
@@ -278,17 +293,50 @@ export default function App() {
                 />
               </div>
 
-              {/* Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {filteredRooms.map((room) => (
-                  <RoomCard
-                    key={room.id}
-                    room={room}
-                    onSelectRoom={(r) => setSelectedDetailRoom(r)}
-                    onQuickBook={(r) => setSelectedEnquiryRoom(r)}
-                  />
-                ))}
+              {/* Grid Header & Summary */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EFE6DF] pb-4 pt-2">
+                <h3 className="text-lg font-bold text-[#2A2421]">
+                  Available Room Listings ({filteredRooms.length})
+                </h3>
+                {selectedType !== 'All' && (
+                  <span className="text-xs font-bold text-[#C5A059] bg-[#FDF8F3] px-3 py-1 rounded-full border border-[#C5A059]/20 self-start sm:self-auto">
+                    Filtering: {selectedType}
+                  </span>
+                )}
               </div>
+
+              {/* Grid */}
+              {filteredRooms.length === 0 ? (
+                <div className="p-12 text-center bg-white rounded-3xl border border-[#EFE6DF] space-y-4 my-8">
+                  <Building2 className="w-12 h-12 text-[#A39690] mx-auto" />
+                  <h3 className="text-xl font-bold text-[#2A2421]">No Rooms Match Your Search</h3>
+                  <p className="text-sm text-[#786C66] max-w-sm mx-auto">
+                    Try clearing your location search or increasing your maximum rent budget.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedType('All');
+                      setMaxBudget(2300);
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-[#C5A059] text-white text-xs font-bold shadow-md"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {filteredRooms.map((room) => (
+                    <RoomCard
+                      key={room.id}
+                      room={room}
+                      onSelectRoom={(r) => setSelectedDetailRoom(r)}
+                      onQuickBook={(r) => setSelectedEnquiryRoom(r)}
+                    />
+                  ))}
+                </div>
+              )}
+
             </div>
           )}
 
