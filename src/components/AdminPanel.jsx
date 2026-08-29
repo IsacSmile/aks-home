@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Shield, KeyRound, Plus, Edit2, Trash2, CheckCircle2, 
-  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft
+  X, Lock, Building2, MessageSquare, Phone, Mail, Calendar, Sparkles, Image, RefreshCw, ArrowLeft, Train, MapPin
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -263,46 +263,74 @@ export function AdminPanel({
 
                   <button
                     onClick={openAddModal}
-                    className="px-5 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto"
+                    className="px-5 py-3 rounded-xl bg-[#C5A059] hover:bg-[#B38E46] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto shrink-0"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add New Room Listing</span>
                   </button>
                 </div>
 
-                {/* Rooms Grid - Clean Responsive Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+                {/* Rooms Grid - Spacious 2-Column Desktop Grid for Un-truncated Cards */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
                   {rooms.map((rm) => (
-                    <div key={rm.id} className="p-4 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:border-[#C5A059]/40 transition-all">
-                      <div className="flex items-center gap-3.5 min-w-0 w-full sm:w-auto">
+                    <div 
+                      key={rm.id} 
+                      className="p-4 sm:p-5 rounded-2xl border border-[#EFE6DF] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:border-[#C5A059]/50 hover:shadow-md transition-all"
+                    >
+                      
+                      {/* Left & Middle Info Section */}
+                      <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1 w-full">
+                        
+                        {/* Fixed Size Thumbnail Image */}
                         <img
                           src={rm.images[0]}
                           alt={rm.title}
-                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-[#EFE6DF] shrink-0"
+                          className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border border-[#EFE6DF] shrink-0 shadow-2xs"
                         />
-                        <div className="min-w-0 flex-1">
+
+                        {/* Room Details Column */}
+                        <div className="min-w-0 flex-1 space-y-1 text-left">
+                          
+                          {/* Room Type & Metro Distance Badges */}
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[10px] font-bold uppercase text-[#C5A059] bg-[#FBF4E6] px-2 py-0.5 rounded border border-[#C5A059]/20">
+                            <span className="text-[11px] font-extrabold uppercase text-[#C5A059] bg-[#FBF4E6] px-2.5 py-0.5 rounded-md border border-[#C5A059]/20">
                               {rm.type}
                             </span>
                             {rm.metroDistance && (
-                              <span className="text-[10px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2 py-0.5 rounded truncate max-w-[140px]">
-                                {rm.metroDistance}
+                              <span className="text-[11px] font-semibold text-[#786C66] bg-[#FAF6F0] px-2.5 py-0.5 rounded-md border border-[#EFE6DF] flex items-center gap-1">
+                                <Train className="w-3 h-3 text-[#C5A059] shrink-0" />
+                                <span>{rm.metroDistance}</span>
                               </span>
                             )}
                           </div>
-                          <h5 className="font-bold text-sm text-[#2A2421] truncate mt-1.5">{rm.title}</h5>
-                          <p className="text-xs text-[#786C66] truncate mt-0.5">{rm.location}</p>
-                          <p className="text-xs font-extrabold text-[#C5A059] mt-1.5">
-                            {formatPrice(rm.pricesAED.monthly)} <span className="text-[11px] font-normal text-[#786C66]">/ month</span>
+
+                          {/* Full Title (No Truncation, wraps up to 2 lines max) */}
+                          <h5 className="font-extrabold text-base sm:text-lg text-[#2A2421] leading-snug line-clamp-2 mt-1">
+                            {rm.title}
+                          </h5>
+
+                          {/* Full Location */}
+                          <p className="text-xs sm:text-sm text-[#786C66] flex items-center gap-1 font-medium">
+                            <MapPin className="w-3.5 h-3.5 text-[#A39690] shrink-0" />
+                            <span>{rm.location}</span>
                           </p>
+
+                          {/* Clear Price */}
+                          <div className="pt-1">
+                            <span className="text-base sm:text-lg font-extrabold text-[#2A2421]">
+                              {formatPrice(rm.pricesAED.monthly)}
+                            </span>
+                            <span className="text-xs text-[#786C66] font-medium ml-1">/ month</span>
+                          </div>
+
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-[#EFE6DF] shrink-0">
+                      {/* Right Action Buttons Column */}
+                      <div className="flex flex-row sm:flex-col items-center justify-end gap-2.5 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-[#EFE6DF] shrink-0">
                         <button
                           onClick={() => openEditModal(rm)}
-                          className="px-3.5 py-2 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center gap-1.5 transition-colors border border-[#EFE6DF]"
+                          className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#FAF6F0] hover:bg-[#F3EBE1] text-[#2A2421] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-[#EFE6DF] shadow-2xs"
                           title="Edit Room"
                         >
                           <Edit2 className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -314,13 +342,14 @@ export function AdminPanel({
                               onDeleteRoom(rm.id);
                             }
                           }}
-                          className="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center gap-1.5 transition-colors border border-red-200"
+                          className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-red-200/70 shadow-2xs"
                           title="Delete Room"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           <span>Delete</span>
                         </button>
                       </div>
+
                     </div>
                   ))}
                 </div>
