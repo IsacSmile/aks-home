@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, Users, Zap, Train, Globe, CheckCircle2, 
-  Star, UserCheck, DoorOpen, MessageCircle, 
+  Star, UserCheck, DoorOpen, MessageCircle, Quote,
   ChevronLeft, ChevronRight, MapPin, Sparkles, Building2, Briefcase
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
@@ -15,8 +15,8 @@ const tenantFeedback = [
     company: 'Fintech Corp, Business Bay',
     role: 'Senior Data Analyst',
     badge: '⚡ ZERO DEPOSIT',
-    badgeType: 'Direct Landlord',
-    quote: '"The personalized assistance for room selection and zero security deposit saved me so much time and upfront money. Super responsive and transparent team!"',
+    badgeType: 'Direct Landlord Rate',
+    quote: '"The zero deposit move-in and direct landlord pricing saved me so much initial money when relocating to Dubai. Being 2 minutes walk from Baniyas Metro exit makes my daily commute effortless!"',
     location: 'Baniyas Square, Dubai'
   },
   {
@@ -63,7 +63,7 @@ const tenantFeedback = [
     company: 'Retail Group, BurJuman',
     role: 'Operations Manager',
     badge: '🚇 1-MIN METRO WALK',
-    badgeType: 'Prime Location',
+    badgeType: 'Prime Metro Location',
     quote: '"Exact walking distance to the Metro exit as advertised. Weekly deep cleaning services keep the washrooms and kitchen in top hygienic condition."',
     location: 'Union Hub, Dubai'
   },
@@ -107,7 +107,7 @@ const tenantFeedback = [
 
 export function TrustSections({ onExploreRooms }) {
   const { formatPrice } = useCurrency();
-  const [activeTenantIndex, setActiveTenantIndex] = useState(1); // Default to Karthik as in reference screenshot
+  const [activeTenantIndex, setActiveTenantIndex] = useState(1);
 
   const activeTenant = tenantFeedback[activeTenantIndex];
 
@@ -148,7 +148,7 @@ export function TrustSections({ onExploreRooms }) {
   ];
 
   return (
-    <div className="space-y-16 py-12 text-left">
+    <div className="space-y-16 py-10 sm:py-16 text-left">
       
       {/* 1. WHY PROFESSIONALS TRUST AKS HOME */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -187,161 +187,159 @@ export function TrustSections({ onExploreRooms }) {
         </div>
       </section>
 
-      {/* 2. EXACT MATCHING FEEDBACK SECTION (Warm Background + Pill Cloud + Card UI) */}
-      <section className="bg-[#FAF7F2] py-12 sm:py-16 border-y border-[#EFE6DF]/60">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* 2. FEEDBACK SECTION (Seamless Home Page Background + Refined Palette) */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* Header Title Section */}
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#1E1B18] text-[#E6C98B] text-[10px] sm:text-xs font-extrabold tracking-wider uppercase shadow-xs border border-[#C5A059]/30">
+            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+            <span>VERIFIED TENANT SUCCESS STORIES</span>
+          </div>
+
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-[#2A2421] tracking-tight">
+            Real Residents. Proven Pathways.
+          </h2>
           
-          {/* Header Title Section */}
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0F382C] text-white text-[11px] font-extrabold tracking-wider uppercase shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#E6C98B]" />
-              <span>VERIFIED TENANT SUCCESS STORIES</span>
-            </div>
+          <p className="text-xs sm:text-sm text-[#786C66] max-w-lg mx-auto leading-relaxed font-normal">
+            Hear directly from working professionals successfully living in top Dubai metro flatshares.
+          </p>
+        </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2A2421] tracking-tight font-serif">
-              Real Residents. Proven Pathways.
-            </h2>
-            
-            <p className="text-xs sm:text-sm text-[#786C66] max-w-lg mx-auto leading-relaxed font-normal">
-              Hear directly from working professionals successfully living in top Dubai metro flatshares.
-            </p>
-          </div>
-
-          {/* Staggered Avatar Pills Container */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-xl mx-auto px-2">
-            {tenantFeedback.map((tenant, idx) => {
-              const isActive = idx === activeTenantIndex;
-              return (
-                <button
-                  key={tenant.id}
-                  onClick={() => setActiveTenantIndex(idx)}
-                  className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 shadow-2xs border ${
-                    isActive
-                      ? 'bg-[#0F382C] text-white border-[#0F382C] shadow-md scale-105'
-                      : 'bg-white text-[#2A2421] border-gray-200 hover:bg-[#FAF6F0] hover:border-[#C5A059]/40'
-                  }`}
-                >
-                  <img
-                    src={tenant.avatar}
-                    alt={tenant.name}
-                    className="w-5 h-5 rounded-full object-cover shrink-0"
-                  />
-                  <span>{tenant.shortName}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Review Card - Exact Match to Screenshot */}
-          <div className="relative bg-white rounded-3xl p-6 sm:p-9 shadow-xl shadow-black/[0.04] border border-[#EFE6DF] space-y-5">
-            
-            {/* Big Pink Quote Watermark in top right */}
-            <div className="absolute top-5 right-6 text-[#F9D5D5]/80 pointer-events-none select-none">
-              <span className="text-6xl sm:text-7xl font-serif leading-none font-bold text-[#F8D4D4]">”</span>
-            </div>
-
-            {/* Header: Photo + Rating + Name + Details */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 relative z-10">
-              
-              {/* Avatar Photo with VERIFIED ~ Badge overlapping bottom */}
-              <div className="relative shrink-0">
+        {/* Staggered Avatar Pills Container */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-xl mx-auto px-2">
+          {tenantFeedback.map((tenant, idx) => {
+            const isActive = idx === activeTenantIndex;
+            return (
+              <button
+                key={tenant.id}
+                onClick={() => setActiveTenantIndex(idx)}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 shadow-2xs border ${
+                  isActive
+                    ? 'bg-[#1E1B18] text-white border-[#1E1B18] shadow-md scale-105'
+                    : 'bg-white text-[#2A2421] border-[#EFE6DF] hover:bg-[#FAF6F0] hover:border-[#C5A059]/40'
+                }`}
+              >
                 <img
-                  src={activeTenant.avatar}
-                  alt={activeTenant.name}
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-gray-200 shadow-sm"
+                  src={tenant.avatar}
+                  alt={tenant.name}
+                  className="w-5 h-5 rounded-full object-cover shrink-0"
                 />
-                <span className="absolute -bottom-2 -left-1 bg-[#D93025] text-white text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1 tracking-tight">
-                  <span>VERIFIED</span>
-                  <span className="text-[10px]">~</span>
-                </span>
-              </div>
+                <span>{tenant.shortName}</span>
+              </button>
+            );
+          })}
+        </div>
 
-              {/* Stars + Badge + Name + Details */}
-              <div className="space-y-1.5">
-                <div className="flex flex-wrap items-center gap-2">
-                  {/* 5 Crimson Stars */}
-                  <div className="flex items-center gap-0.5 text-[#D93025]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#D93025] text-[#D93025]" />
-                    ))}
-                  </div>
-                  
-                  {/* Pink Badge Pill */}
-                  <span className="bg-[#FDE8E8] text-[#D93025] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                    {activeTenant.badge}
-                  </span>
-                </div>
+        {/* Review Card */}
+        <div className="relative bg-white rounded-3xl p-6 sm:p-9 shadow-lg shadow-black/[0.03] border border-[#EFE6DF] space-y-5">
+          
+          {/* Big Quote Watermark in top right */}
+          <div className="absolute top-5 right-6 text-[#C5A059]/15 pointer-events-none select-none">
+            <Quote className="w-16 h-16 sm:w-20 sm:h-20 fill-[#C5A059]/10 text-[#C5A059]" />
+          </div>
 
-                {/* Name */}
-                <h3 className="text-xl sm:text-2xl font-bold text-[#2A2421] font-serif">
-                  {activeTenant.name}
-                </h3>
-
-                {/* Company & Role Details */}
-                <div className="space-y-0.5 text-xs text-[#554A45]">
-                  <p className="flex items-center gap-1.5 font-medium">
-                    <Building2 className="w-3.5 h-3.5 text-[#786C66]" />
-                    <span>{activeTenant.company}</span>
-                  </p>
-                  <p className="flex items-center gap-1.5 font-bold text-[#0F382C]">
-                    <Briefcase className="w-3.5 h-3.5 text-[#0F382C]" />
-                    <span>{activeTenant.role}</span>
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Divider */}
-            <hr className="border-[#EFE6DF] my-2" />
-
-            {/* Quote Paragraph */}
-            <p className="text-xs sm:text-sm text-[#38312D] leading-relaxed italic font-normal">
-              {activeTenant.quote}
-            </p>
-
-            {/* Card Bottom Footer */}
-            <div className="pt-2 flex items-center justify-between gap-2 text-xs">
-              <div className="flex items-center gap-1.5 text-[#D93025] font-semibold">
-                <MapPin className="w-4 h-4 fill-[#D93025] text-white" />
-                <span>{activeTenant.location}</span>
-              </div>
-
-              <span className="bg-[#F4F8F5] text-[#0F382C] text-[11px] font-bold px-3 py-1 rounded-xl border border-[#0F382C]/15">
-                {activeTenant.badgeType}
+          {/* Header: Photo + Rating + Name + Details */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 relative z-10">
+            
+            {/* Avatar Photo with VERIFIED ~ Badge overlapping bottom */}
+            <div className="relative shrink-0">
+              <img
+                src={activeTenant.avatar}
+                alt={activeTenant.name}
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-[#EFE6DF] shadow-sm"
+              />
+              <span className="absolute -bottom-2 -left-1 bg-[#D93025] text-white text-[9px] font-extrabold uppercase px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1 tracking-tight">
+                <span>VERIFIED</span>
+                <span className="text-[10px]">~</span>
               </span>
             </div>
 
+            {/* Stars + Badge + Name + Details */}
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                {/* 5 Gold Stars */}
+                <div className="flex items-center gap-0.5 text-[#C5A059]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-[#C5A059] text-[#C5A059]" />
+                  ))}
+                </div>
+                
+                {/* Gold Pill Badge */}
+                <span className="bg-[#FBF4E6] text-[#C5A059] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-[#C5A059]/20">
+                  {activeTenant.badge}
+                </span>
+              </div>
+
+              {/* Name */}
+              <h3 className="text-xl sm:text-2xl font-extrabold text-[#2A2421]">
+                {activeTenant.name}
+              </h3>
+
+              {/* Company & Role Details */}
+              <div className="space-y-0.5 text-xs text-[#786C66]">
+                <p className="flex items-center gap-1.5 font-medium">
+                  <Building2 className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>{activeTenant.company}</span>
+                </p>
+                <p className="flex items-center gap-1.5 font-bold text-[#2A2421]">
+                  <Briefcase className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>{activeTenant.role}</span>
+                </p>
+              </div>
+            </div>
+
           </div>
 
-          {/* Bottom Pagination & Controls */}
-          <div className="flex items-center justify-between pt-2 px-1 text-xs font-semibold text-[#786C66]">
-            <div>
-              <span>Resident </span>
-              <span className="font-extrabold text-[#2A2421]">{activeTenantIndex + 1}</span>
-              <span> of {tenantFeedback.length}</span>
+          {/* Divider */}
+          <hr className="border-[#EFE6DF] my-2" />
+
+          {/* Quote Paragraph */}
+          <p className="text-xs sm:text-sm text-[#2A2421] leading-relaxed italic font-medium">
+            {activeTenant.quote}
+          </p>
+
+          {/* Card Bottom Footer */}
+          <div className="pt-2 flex items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-1.5 text-[#2A2421] font-semibold">
+              <MapPin className="w-4 h-4 text-[#278A45]" />
+              <span>{activeTenant.location}</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handlePrevTenant}
-                aria-label="Previous resident"
-                className="w-10 h-10 rounded-full bg-white hover:bg-[#FAF6F0] text-[#2A2421] border border-gray-300 flex items-center justify-center shadow-xs transition-all active:scale-95"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              <button
-                onClick={handleNextTenant}
-                aria-label="Next resident"
-                className="w-10 h-10 rounded-full bg-[#0F382C] hover:bg-[#154a3b] text-white flex items-center justify-center shadow-md transition-all active:scale-95"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            <span className="bg-[#EBF7EE] text-[#278A45] text-[11px] font-bold px-3 py-1 rounded-xl border border-[#278A45]/20">
+              ✓ {activeTenant.badgeType}
+            </span>
           </div>
 
         </div>
+
+        {/* Bottom Pagination & Controls */}
+        <div className="flex items-center justify-between pt-2 px-1 text-xs font-semibold text-[#786C66]">
+          <div>
+            <span>Resident </span>
+            <span className="font-extrabold text-[#2A2421]">{activeTenantIndex + 1}</span>
+            <span> of {tenantFeedback.length}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrevTenant}
+              aria-label="Previous resident"
+              className="w-10 h-10 rounded-full bg-white hover:bg-[#FAF6F0] text-[#2A2421] border border-[#EFE6DF] flex items-center justify-center shadow-xs transition-all active:scale-95"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={handleNextTenant}
+              aria-label="Next resident"
+              className="w-10 h-10 rounded-full bg-[#1E1B18] hover:bg-[#C5A059] text-white flex items-center justify-center shadow-md transition-all active:scale-95"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
       </section>
 
       {/* 3. HOW IT WORKS (SIMPLE 3-STEP PROCESS) */}
