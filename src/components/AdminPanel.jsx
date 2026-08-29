@@ -201,8 +201,13 @@ export function AdminPanel({
             </button>
           </form>
 
-          <div className="pt-2 text-[11px] text-[#A39690]">
-            Passkey: <code className="bg-[#FAF6F0] px-2 py-0.5 rounded text-[#2A2421] font-mono font-bold">aks2026</code>
+          <div className="pt-2 space-y-2 text-center">
+            <div className="text-[11px] text-[#A39690]">
+              Passkey: <code className="bg-[#FAF6F0] px-2 py-0.5 rounded text-[#2A2421] font-mono font-bold border border-[#EFE6DF]">aks2026</code>
+            </div>
+            <p className="text-[10px] text-[#C5A059] font-bold italic bg-[#FBF4E6] px-3 py-1.5 rounded-xl border border-[#C5A059]/30 inline-block shadow-2xs">
+              Note: At the time of final website delivery, the passkey display will be removed from here. — Faiz
+            </p>
           </div>
         </div>
       ) : (
